@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House of GODMYHXND</title>
+    <style>
+        /* --- CSS เดิม (สไตล์หลักของเว็บ) --- */
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; /* ป้องกันการเลื่อน */
+            position: relative; /* สำหรับ Canvas */
+        }
+
+        /* --- ใหม่: สไตล์สำหรับ Canvas พายุหิมะ --- */
+        #snow-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* ให้อยู่หลังเนื้อหาหลัก */
+            pointer-events: none; /* ไม่ให้รบกวนการคลิกปุ่ม */
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            z-index: 1; /* ให้อยู่หน้าหิมะ */
+        }
+
+        /* Glitch หัวข้อ */
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 50px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+
+        .title:hover::before,
+        .title:hover::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+        }
+
+        .title:hover::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .title:hover::after {
+            left: -2px;
+            text-shadow: -2px 0 #00fff9;
+            clip: rect(85px, 450px, 140px, 0);
+            animation: glitch-anim2 1s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(31px, 9999px, 94px, 0); }
+            100% { clip: rect(62px, 9999px, 137px, 0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(10px, 9999px, 85px, 0); }
+            100% { clip: rect(120px, 9999px, 160px, 0); }
+        }
+
+        /* โลโก้ */
+        .logo-container {
+            margin-bottom: 60px;
+            animation: flicker-img 4s infinite;
+        }
+
+        .logo-image {
+            max-width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        @keyframes flicker-img {
+            0%, 100% { opacity: 0.9; }
+            5% { opacity: 0.3; }
+            10% { opacity: 1; }
+            15% { opacity: 0.5; }
+            20% { opacity: 0.9; }
+            22% { opacity: 1; }
+            70% { opacity: 0.9; }
+            72% { opacity: 0.3; }
+            77% { opacity: 1; }
+        }
+
+        /* ปุ่ม */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn {
+            display: block;
+            width: 300px;
+            padding: 15px;
+            border: 1px solid #333333;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 2px;
+            position: relative;
+            transition: 0.2s;
+            background-color: transparent;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            background-color: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            transform: translateY(-2px);
+        }
+        
+        .btn:hover::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 10px;
+            height: 10px;
+            background: #000;
+            clip-path: polygon(100% 0, 100% 100%, 0 100%);
+        }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="snow-canvas"></canvas>
+
+    <div class="container">
+        <h1 class="title" data-text="House of GODMYHXND">House of GODMYHXND</h1>
+
+        <div class="logo-container">
+            <img src="image-removebg-preview (1).png" alt="GODMYHXND Logo" class="logo-image">
+        </div>
+
+<div class="button-container">
+    <a href="founder.html" class="btn">FOUNDER GODMYHXND</a>
+    <a href="co-founder.html" class="btn">NEVERBROKE GODMYHXND</a> 
+    <a href="leader.html" class="btn">LEADER GODMYHXND</a>
+    <a href="member.html" class="btn">MEMBER GODMYHXND</a>
+</div>
+
+    <script>
+        (function() {
+            const canvas = document.getElementById('snow-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            let width, height;
+            let particles = [];
+            const particleCount = 200; // จำนวนเกล็ดหิมะ (ปรับเพิ่ม/ลดได้)
+
+            function init() {
+                resize();
+                window.addEventListener('resize', resize);
+                createParticles();
+                animate();
+            }
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+
+                reset() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.radius = Math.random() * 2 + 0.5; // ขนาดเกล็ดหิมะ
+                    this.speedY = Math.random() * 3 + 2; // ความเร็วตก (2-5px/frame)
+                    this.speedX = Math.random() * 5 - 2.5; // ความเร็วลมแกน X (-2.5 ถึง +2.5)
+                }
+
+                update() {
+                    this.y += this.speedY;
+                    this.x += this.speedX;
+
+                    // เมื่อตกพ้นหน้าจอ ให้กลับไปเริ่มด้านบนใหม่
+                    if (this.y > height) {
+                        this.y = -10;
+                        this.x = Math.random() * width;
+                    }
+                    // ป้องกันหิมะไหลออกข้างมากเกินไป
+                    if (this.x > width) this.x = 0;
+                    if (this.x < 0) this.x = width;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.random() * Math.PI * 2);
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'; // สีเกล็ดหิมะ
+                    ctx.fill();
+                    ctx.closePath();
+                }
+            }
+
+            function createParticles() {
+                particles = [];
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height); // ล้างเฟรมเก่า
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+                requestAnimationFrame(animate);
+            }
+
+            init();
+        })();
+    </script>
+
+<div id="music-player-container" style="
+    position: fixed; bottom: 20px; right: 20px;
+    background: rgba(0, 0, 0, 0.9); border: 1px solid #333;
+    padding: 12px; z-index: 1000; width: 220px;
+    font-family: 'Courier New', monospace; border-left: 3px solid #e5ebeb;
+">
+    <div id="track-info" style="font-size: 9px; color: #f1f5f5; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        [ LOADING SYSTEM... ]
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+        <button onclick="prevTrack()" style="background:none; border:1px solid #444; color:#fff; cursor:pointer; font-size:9px;">PREV</button>
+        <button id="playPauseBtn" onclick="togglePlayPause()" style="background:#feffff; border:none; color:#000; cursor:pointer; font-size:9px; padding: 2px 8px; font-weight:bold;">PAUSE</button>
+        <button onclick="nextTrack()" style="background:none; border:1px solid #444; color:#fff; cursor:pointer; font-size:9px;">NEXT</button>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 8px; color: #666;">VOL</span>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" style="width: 100%; cursor: pointer; accent-color: #eeeeee;">
+    </div>
+</div>
+
+<audio id="bgMusic" autoplay></audio> <script>
+    const playlist = [
+        { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "mp3/PORZAX -  MV (1).mp3" },
+        { name: "TRACK 02", src: "track2.mp3" },
+        { name: "TRACK 03", src: "track3.mp3" }
+    ];
+
+    let currentTrackIndex = 0;
+    const music = document.getElementById('bgMusic');
+    const trackInfo = document.getElementById('track-info');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+
+    function loadTrack(index) {
+        music.src = playlist[index].src;
+        trackInfo.innerText = `[ PLAYING: ${playlist[index].name} ]`;
+        music.load();
+    }
+
+    function togglePlayPause() {
+        if (music.paused) {
+            music.play();
+            playPauseBtn.innerText = 'PAUSE';
+        } else {
+            music.pause();
+            playPauseBtn.innerText = 'PLAY';
+        }
+    }
+
+    function nextTrack() {
+        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+        loadTrack(currentTrackIndex);
+        music.play();
+        playPauseBtn.innerText = 'PAUSE';
+    }
+
+    function prevTrack() {
+        currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+        loadTrack(currentTrackIndex);
+        music.play();
+        playPauseBtn.innerText = 'PAUSE';
+    }
+
+    music.onended = () => nextTrack();
+    volumeSlider.oninput = (e) => { music.volume = e.target.value; };
+
+    // สั่งให้เล่นทันทีที่โหลดหน้าจอเสร็จ (Window Load)
+    window.onload = function() {
+        loadTrack(currentTrackIndex);
+        music.volume = 0.5;
+        
+        // คำสั่งบังคับ Play ทันที
+        let playAttempt = setInterval(() => {
+            music.play().then(() => {
+                clearInterval(playAttempt); // หยุดพยายามถ้าเพลงเล่นแล้ว
+                playPauseBtn.innerText = 'PAUSE';
+            }).catch(e => {
+                console.log("System Auto-Play attempt...");
+            });
+        }, 500); // พยายามเล่นทุกๆ 0.5 วินาทีจนกว่าจะสำเร็จ
+    };
+</script>
+
+</body>
+</html>
