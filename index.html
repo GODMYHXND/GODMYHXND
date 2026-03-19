@@ -19,6 +19,7 @@
             position: relative;
         }
 
+        /* --- เอฟเฟกต์พายุหิมะ --- */
         #snow-canvas {
             position: absolute;
             top: 0; left: 0;
@@ -32,21 +33,17 @@
             width: 100%;
             max-width: 600px;
             z-index: 1;
-            padding-bottom: 100px; /* กันโดน Player ทับในมือถือ */
+            padding-bottom: 120px; /* เว้นพื้นที่ให้ Player ในมือถือ */
         }
 
-        /* Glitch Title */
         .title {
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 40px;
             letter-spacing: 2px;
             text-transform: uppercase;
-            position: relative;
-            display: inline-block;
         }
 
-        /* โลโก้ */
         .logo-container {
             margin-bottom: 50px;
             animation: flicker-img 4s infinite;
@@ -67,7 +64,6 @@
             70% { opacity: 0.9; }
         }
 
-        /* ปุ่มเมนู */
         .button-container {
             display: flex;
             flex-direction: column;
@@ -84,10 +80,8 @@
             text-decoration: none;
             font-size: 11px;
             letter-spacing: 2px;
-            position: relative;
             transition: 0.2s;
             background-color: transparent;
-            overflow: hidden;
         }
 
         .btn:hover {
@@ -96,13 +90,13 @@
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
 
-        /* --- Music Player Responsive Style --- */
+        /* --- Music Player UI --- */
         #music-player-container {
             position: fixed;
-            bottom: 0; /* มือถือ: ติดขอบล่าง */
+            bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.9);
             backdrop-filter: blur(5px);
             border-top: 1px solid #333;
             padding: 12px 0;
@@ -111,7 +105,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: 0.3s;
         }
 
         @media (min-width: 768px) {
@@ -121,15 +114,15 @@
                 right: 20px;
                 left: auto;
                 border: 1px solid #333;
-                border-left: 3px solid #e5ebeb;
+                border-left: 3px solid #fff;
                 padding: 15px;
             }
             .container { padding-bottom: 0; }
         }
 
         #track-info {
-            font-size: 10px;
-            color: #f1f5f5;
+            font-size: 9px;
+            color: #fff;
             margin-bottom: 8px;
             width: 90%;
             text-align: center;
@@ -138,42 +131,15 @@
             text-overflow: ellipsis;
         }
 
-        .player-controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
+        .player-controls { display: flex; gap: 10px; margin-bottom: 10px; }
         .player-controls button {
-            background: none;
-            border: 1px solid #444;
-            color: #fff;
-            cursor: pointer;
-            font-size: 9px;
-            padding: 4px 12px;
+            background: none; border: 1px solid #444; color: #fff;
+            cursor: pointer; font-size: 9px; padding: 4px 12px;
         }
-
-        #playPauseBtn {
-            background: #fff !important;
-            color: #000 !important;
-            border: none !important;
-            font-weight: bold;
-        }
-
-        .volume-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 80%;
-            max-width: 250px;
-        }
-
-        input[type=range] {
-            flex: 1;
-            cursor: pointer;
-            accent-color: #fff;
-        }
+        #playPauseBtn { background: #fff !important; color: #000 !important; font-weight: bold; }
+        
+        .volume-box { display: flex; align-items: center; gap: 10px; width: 80%; max-width: 200px; }
+        input[type=range] { flex: 1; cursor: pointer; accent-color: #fff; }
     </style>
 </head>
 <body>
@@ -181,12 +147,10 @@
     <canvas id="snow-canvas"></canvas>
 
     <div class="container">
-        <h1 class="title" data-text="House of GODMYHXND">House of GODMYHXND</h1>
-
+        <h1 class="title">House of GODMYHXND</h1>
         <div class="logo-container">
             <img src="image-removebg-preview (1).png" alt="GODMYHXND Logo" class="logo-image">
         </div>
-
         <div class="button-container">
             <a href="founder.html" class="btn">FOUNDER GODMYHXND</a>
             <a href="co-founder.html" class="btn">NEVERBROKE GODMYHXND</a> 
@@ -196,14 +160,12 @@
     </div>
 
     <div id="music-player-container">
-        <div id="track-info">[ LOADING SYSTEM... ]</div>
-        
+        <div id="track-info">[ SYSTEM LOADING... ]</div>
         <div class="player-controls">
             <button onclick="prevTrack()">PREV</button>
             <button id="playPauseBtn" onclick="togglePlayPause()">PAUSE</button>
             <button onclick="nextTrack()">NEXT</button>
         </div>
-
         <div class="volume-box">
             <span style="font-size: 8px; color: #666;">VOL</span>
             <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
@@ -213,90 +175,120 @@
     <audio id="bgMusic" autoplay></audio>
 
     <script>
-        // --- Snow Effect ---
-        (function() {
-            const canvas = document.getElementById('snow-canvas');
-            const ctx = canvas.getContext('2d');
-            let width, height, particles = [];
-            function init() {
-                resize();
-                window.addEventListener('resize', resize);
-                for (let i = 0; i < 150; i++) particles.push({
-                    x: Math.random() * width, y: Math.random() * height,
-                    r: Math.random() * 2 + 0.5, sy: Math.random() * 3 + 1, sx: Math.random() * 2 - 1
+    // --- 1. Script พายุหิมะ ---
+    (function() {
+        const canvas = document.getElementById('snow-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles = [];
+        function init() {
+            resize();
+            window.addEventListener('resize', resize);
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    r: Math.random() * 2 + 0.5,
+                    sy: Math.random() * 3 + 1,
+                    sx: Math.random() * 2 - 1
                 });
-                animate();
             }
-            function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-            function animate() {
-                ctx.clearRect(0, 0, width, height);
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-                particles.forEach(p => {
-                    p.y += p.sy; p.x += p.sx;
-                    if (p.y > height) p.y = -10;
-                    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
-                });
-                requestAnimationFrame(animate);
-            }
-            init();
-        })();
+            animate();
+        }
+        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            particles.forEach(p => {
+                p.y += p.sy; p.x += p.sx;
+                if (p.y > height) p.y = -10;
+                if (p.x > width) p.x = 0; else if (p.x < 0) p.x = width;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        init();
+    })();
 
-        // --- Music Player Logic ---
-        const playlist = [
-            { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "mp3/PORZAX -  MV (1).mp3" },
-            { name: "TRACK 02", src: "track2.mp3" },
-            { name: "TRACK 03", src: "track3.mp3" }
-        ];
+    // --- 2. Script ระบบเพลง ---
+    const playlist = [
+        { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "mp3/PORZAX -  MV (1).mp3" },
+        { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "mp3/PORZAX -     MV.mp3" },
+        { name: "PORZAX - พอได้แล้ว (MV)", src: "mp3/PORZAX -  MV (2).mp3" },
+        { name: "PORZAX - อย่ามาพูดถึงคำว่ารัก", src: "mp3/PORZAX - 2 (2).mp3" },
+        { name: "PORZAX - ดอกไม้สีเทา Ft.Pondering", src: "mp3/PORZAX - .mp3" },
+        { name: "PORZAX - สิ้นสุดความพยายาม ", src: "mp3/PORZAX - 2.mp3" },
+        { name: "PORZAX - สิ้นสุดแรงรั้ง ", src: "mp3/PORZAX -    Special Version.mp3" },
+        { name: "PORZAX - PORZAX - รักร้ายท้ายสุด ", src: "mp3/PORZAX -  11(1).mp3" },
+        { name: "PORZAX - PORZAX - รักร้ายท้ายสุด ", src: "mp3/PORZAX -  FtRachYO.mp3" },
+    ];
 
-        let currentTrackIndex = 0;
-        const music = document.getElementById('bgMusic');
-        const trackInfo = document.getElementById('track-info');
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const volumeSlider = document.getElementById('volumeSlider');
+    let currentTrackIndex = parseInt(localStorage.getItem('godmy_musicIndex')) || 0;
+    const music = document.getElementById('bgMusic');
+    const trackInfo = document.getElementById('track-info');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
 
-        function loadTrack(index) {
+    function loadTrack(index) {
+        if (playlist[index]) {
             music.src = playlist[index].src;
             trackInfo.innerText = `[ PLAYING: ${playlist[index].name} ]`;
-            music.load();
+            localStorage.setItem('godmy_musicIndex', index);
         }
+    }
 
-        function togglePlayPause() {
-            if (music.paused) {
-                music.play();
-                playPauseBtn.innerText = 'PAUSE';
-            } else {
-                music.pause();
-                playPauseBtn.innerText = 'PLAY';
-            }
-        }
+    window.onbeforeunload = function() {
+        localStorage.setItem('godmy_musicTime', music.currentTime);
+        localStorage.setItem('godmy_paused', music.paused);
+    };
 
-        function nextTrack() {
-            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
-            loadTrack(currentTrackIndex);
-            music.play();
-            playPauseBtn.innerText = 'PAUSE';
-        }
+    function togglePlayPause() {
+        if (music.paused) { music.play(); playPauseBtn.innerText = 'PAUSE'; }
+        else { music.pause(); playPauseBtn.innerText = 'PLAY'; }
+    }
 
-        function prevTrack() {
-            currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
-            loadTrack(currentTrackIndex);
-            music.play();
-            playPauseBtn.innerText = 'PAUSE';
-        }
+    function nextTrack() {
+        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+        localStorage.setItem('godmy_musicTime', 0);
+        loadTrack(currentTrackIndex);
+        music.play();
+        playPauseBtn.innerText = 'PAUSE';
+    }
 
-        music.onended = () => nextTrack();
-        volumeSlider.oninput = (e) => { music.volume = e.target.value; };
+    function prevTrack() {
+        currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+        localStorage.setItem('godmy_musicTime', 0);
+        loadTrack(currentTrackIndex);
+        music.play();
+        playPauseBtn.innerText = 'PAUSE';
+    }
 
-        window.onload = function() {
-            loadTrack(currentTrackIndex);
-            music.volume = 0.5;
-            let playAttempt = setInterval(() => {
+    music.onended = () => nextTrack();
+
+    window.addEventListener('load', () => {
+        loadTrack(currentTrackIndex);
+        const savedTime = localStorage.getItem('godmy_musicTime');
+        if (savedTime) music.currentTime = parseFloat(savedTime);
+        
+        const savedVol = localStorage.getItem('godmy_volume');
+        music.volume = savedVol ? parseFloat(savedVol) : 0.5;
+        volumeSlider.value = music.volume;
+
+        if (localStorage.getItem('godmy_paused') !== 'true') {
+            let attempt = setInterval(() => {
                 music.play().then(() => {
-                    clearInterval(playAttempt);
+                    clearInterval(attempt);
                     playPauseBtn.innerText = 'PAUSE';
-                }).catch(e => console.log("System Auto-Play attempt..."));
-            }, 500);
-        };
+                }).catch(() => {});
+            }, 600);
+        } else {
+            playPauseBtn.innerText = 'PLAY';
+        }
+    });
+
+    volumeSlider.oninput = (e) => {
+        music.volume = e.target.value;
+        localStorage.setItem('godmy_volume', e.target.value);
+    };
     </script>
 </body>
 </html>
