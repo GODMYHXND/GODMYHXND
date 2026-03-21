@@ -9,7 +9,7 @@
         body {
             background-color: #000000;
             color: #ffffff;
-            font-family: 'Courier New', Courier, monospace; /* ฟอนต์พิมพ์ดีด */
+            font-family: 'Courier New', Courier, monospace;
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -19,16 +19,14 @@
             position: relative;
         }
 
-        /* Canvas พายุหิมะแบบเบาบาง (Z-index -1) */
         #snow-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             z-index: -1;
             pointer-events: none;
         }
 
-        /* --- Header ส่วนหัว --- */
+        /* --- Header --- */
         .header {
             width: 100%;
             padding: 30px 50px;
@@ -39,27 +37,20 @@
             z-index: 10;
         }
 
-        .title-group {
-            text-align: left;
-        }
-
-        /* หัวข้อหลัก LEADER LIST (ใช้สีฟ้า Cyan) */
         .page-title {
             font-size: 36px;
             font-weight: bold;
             margin: 0;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: #00fff9; /* สีฟ้าสไตล์ Cyberpunk */
-            position: relative;
+            color: #00fff9; 
+            text-shadow: 0 0 10px rgba(0, 255, 249, 0.3);
         }
 
-        /* ช่องค้นหา (Search Bar) */
         .search-container {
             margin-top: 20px;
             width: 100%;
             max-width: 400px;
-            text-align: left;
         }
 
         .search-input {
@@ -68,40 +59,34 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid #333;
             color: #fff;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
+            font-family: inherit;
             outline: none;
-            transition: 0.3s;
             text-transform: uppercase;
+            transition: 0.3s;
         }
 
         .search-input:focus {
-            border-color: #00fff9; /* เปลี่ยนสีขอบเมื่อโฟกัส */
+            border-color: #00fff9;
             box-shadow: 0 0 10px rgba(0, 255, 249, 0.3);
         }
 
-        /* ปุ่มย้อนกลับ BACK (สไตล์เดิม) */
         .back-btn {
             padding: 8px 20px;
             border: 1px solid #444;
             color: #fff;
             text-decoration: none;
             font-size: 12px;
-            letter-spacing: 1px;
-            transition: 0.3s;
             background: rgba(255, 255, 255, 0.05);
             text-transform: uppercase;
+            transition: 0.3s;
         }
 
-        .back-btn:hover {
-            background: #fff;
-            color: #000;
-        }
+        .back-btn:hover { background: #fff; color: #000; }
 
-        /* --- Grid Layout: แถวละ 3 คน --- */
+        /* --- Grid Layout --- */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* แบ่ง 3 คอลัมน์เท่ากัน */
+            grid-template-columns: repeat(3, 1fr);
             gap: 25px;
             width: 95%;
             max-width: 1200px;
@@ -109,13 +94,6 @@
             z-index: 5;
         }
 
-        /* ปรับแต่งสำหรับมือถือ (แสดง 1 คอลัมน์) */
-        @media (max-width: 900px) {
-            .cards-grid { grid-template-columns: 1fr; }
-            .header { padding: 20px; flex-direction: column; gap: 15px; }
-        }
-
-        /* --- สไตล์การ์ดแบบ Cyberpunk/Terminal (ปรับจากสไตล์เดิม) --- */
         .card {
             background: rgba(15, 15, 15, 0.8);
             border: 1px solid #222;
@@ -125,81 +103,56 @@
             padding: 20px;
             box-sizing: border-box;
             position: relative;
-            transition: 0.3s ease;
+            transition: 0.3s;
         }
 
-        /* ใช้สำหรับซ่อนการ์ดที่ไม่ตรงเงื่อนไขการค้นหา/แบ่งหน้า */
-        .card.hidden {
-            display: none !important;
-        }
+        .card.hidden { display: none !important; }
 
-        /* เส้นขีดสีขาวด้านซ้าย (Glow สไตล์เดิม) */
         .card::before {
             content: '';
             position: absolute;
-            left: 0;
-            top: 15%;
-            width: 3px;
-            height: 70%;
-            background-color: #fff;
+            left: 0; top: 15%; width: 3px; height: 70%;
+            background-color: #00fff9;
             opacity: 0.3;
             transition: 0.3s;
         }
 
-        /* เอฟเฟกต์ Glow เวลา Hover การ์ด */
         .card:hover {
-            border-color: #444;
+            border-color: #00fff9;
             transform: translateY(-5px);
             background: rgba(30, 30, 30, 0.9);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .card:hover::before {
-            opacity: 1;
-            box-shadow: 0 0 10px #fff;
-        }
+        .card:hover::before { opacity: 1; box-shadow: 0 0 10px #00fff9; }
 
-        /* รูปโลโก้ในการ์ด */
         .card-logo {
-            width: 70px;
-            height: 70px;
+            width: 70px; height: 70px;
             background: #111;
             border: 1px solid #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             margin-right: 20px;
             flex-shrink: 0;
+            display: flex; justify-content: center; align-items: center;
         }
 
         .card-logo img {
             max-width: 80%;
             opacity: 0.7;
-            filter: grayscale(100%); /* ทำรูปเป็นขาวดำ */
+            filter: grayscale(100%);
             transition: 0.3s;
         }
 
-        .card:hover .card-logo img {
-            filter: grayscale(0%);
-            opacity: 1;
-        }
-
-        /* รายละเอียดข้อความในการ์ด */
-        .card-info {
-            text-align: left;
-        }
+        .card:hover .card-logo img { opacity: 1; filter: grayscale(0%); }
 
         .card-name {
             font-size: 14px;
             font-weight: bold;
             margin: 0;
             color: #fff;
-            letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         .card-role {
-            font-size: 11px;
+            font-size: 10px;
             color: #666;
             margin: 4px 0;
             text-transform: uppercase;
@@ -207,26 +160,23 @@
 
         .view-profile {
             font-size: 11px;
-            color: #00fff9; /* สีฟ้าให้เข้ากับหัวข้อหน้า */
+            color: #00fff9;
             text-decoration: none;
-            text-transform: uppercase;
-            display: block;
             margin-top: 10px;
+            display: block;
+            text-transform: uppercase;
             transition: 0.2s;
         }
 
-        .view-profile:hover {
-            color: #fff;
-            text-shadow: 0 0 5px #00fff9;
-        }
+        .view-profile:hover { color: #fff; text-shadow: 0 0 5px #00fff9; }
 
-        /* --- ส่วนของการแบ่งหน้า (Pagination) แบบ Prev/Next --- */
+        /* --- Pagination --- */
         .pagination {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 5px;
-            margin-bottom: 60px;
+            margin-bottom: 150px; 
             z-index: 10;
         }
         
@@ -239,26 +189,38 @@
             font-family: inherit;
             font-size: 12px;
             transition: 0.3s;
-            text-transform: uppercase;
         }
         
-        .pagination button:hover:not(:disabled) {
-            background: #fff;
-            color: #000;
-        }
-        
-        .pagination button:disabled {
-            opacity: 0.2;
-            cursor: not-allowed;
-        }
+        .pagination button:hover:not(:disabled) { background: #fff; color: #000; }
+        .pagination button:disabled { opacity: 0.2; cursor: not-allowed; }
 
-        .page-info {
-            color: #00fff9; /* สีฟ้า */
-            font-size: 14px;
-            margin: 0 15px;
-            letter-spacing: 1px;
-        }
+        .page-info { color: #00fff9; font-size: 13px; margin: 0 15px; }
 
+        /* --- Music Player UI --- */
+        #music-player-container {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(5px);
+            border-top: 1px solid #333; padding: 12px 0; z-index: 1000;
+            font-family: 'Courier New', monospace; display: flex;
+            flex-direction: column; align-items: center;
+        }
+        @media (min-width: 768px) {
+            #music-player-container {
+                width: 240px; bottom: 20px; right: 20px; left: auto;
+                border: 1px solid #333; border-left: 3px solid #fff; padding: 15px;
+            }
+        }
+        #track-info { font-size: 10px; color: #fff; margin-bottom: 8px; width: 90%; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .player-controls { display: flex; gap: 10px; margin-bottom: 10px; }
+        .player-controls button { background: none; border: 1px solid #444; color: #fff; cursor: pointer; font-size: 9px; padding: 4px 12px; }
+        #playPauseBtn { background: #fff !important; color: #000 !important; border: none !important; font-weight: bold; }
+        .volume-box { display: flex; align-items: center; gap: 10px; width: 80%; max-width: 250px; }
+        input[type=range] { flex: 1; cursor: pointer; accent-color: #fff; }
+
+        @media (max-width: 900px) {
+            .cards-grid { grid-template-columns: 1fr; }
+            .header { padding: 20px; flex-direction: column; gap: 15px; }
+        }
     </style>
 </head>
 <body>
@@ -269,202 +231,124 @@
         <div class="title-group">
             <h1 class="page-title">LEADER LIST</h1>
             <div class="search-container">
-                <input type="text" id="searchInput" class="search-input" placeholder="SEARCH BY NAME...">
+                <input type="text" id="searchInput" class="search-input" placeholder="FIND LEADER BY NAME...">
             </div>
         </div>
         <a href="index.html" class="back-btn">BACK</a>
     </header>
 
     <main class="cards-grid" id="cardsGrid">
-        
-        <div class="card" data-name="LEADER 01">
-            <div class="card-logo">
-                <img src="logo.png" alt="Logo"> </div>
-            <div class="card-info">
-                <p class="card-name">KISS GODMYHXND</p>
-                <p class="card-role">LEADER</p>
-                <a href="https://www.facebook.com/profile.php?id=61578063207491" class="view-profile" target="_blank">VIEW PROFILE</a>
-            </div>
-        </div>
-
-        <div class="card" data-name="LEADER 02">
-            <div class="card-logo">
-                <img src="logo.png" alt="Logo"> </div>
-            <div class="card-info">
-                <p class="card-name">Jayleyz Godmyhxnd</p>
-                <p class="card-role">LEADER</p>
-                <a href="https://www.facebook.com/jayleyz.zerohour/" class="view-profile" target="_blank">VIEW PROFILE</a>
-            </div>
-        </div>
-
-        <div class="card" data-name="LEADER 03">
-            <div class="card-logo">
-                <img src="logo.png" alt="Logo"> </div>
-            <div class="card-info">
-                <p class="card-name">Depp Godmyhxnd</p>
-                <p class="card-role">LEADER</p>
-                <a href="https://www.facebook.com/share/1WxkAL94mn/?mibextid=wwXIfr" class="view-profile" target="_blank">VIEW PROFILE</a>
-            </div>
-        </div>
-
-        <div class="card" data-name="LEADER 04">
-            <div class="card-logo"><img src="logo.png"></div>
-            <div class="card-info">
-                <p class="card-name">Azreal Godmyhxnd</p>
-                <p class="card-role">LEADER</p>
-                <a href="https://www.facebook.com/share/18hSBK3Sj9/?mibextid=wwXIfr" class="view-profile" target="_blank">VIEW PROFILE</a>
-            </div>
-        </div>
-
-        <div class="card" data-name="LEADER 04">
-            <div class="card-logo"><img src="logo.png"></div>
-            <div class="card-info">
-                <p class="card-name">Leon Godmyhxnd</p>
-                <p class="card-role">LEADER</p>
-                <a href="https://www.facebook.com/share/1CbEBRw8N7/?mibextid=wwXIfr" class="view-profile" target="_blank">VIEW PROFILE</a>
-            </div>
-        </div>
-
-        <div class="card" data-name="LEADER 04">
-            <div class="card-logo"><img src="logo.png"></div>
-            <div class="card-info">
-                <p class="card-name">Slamom Godmyhxnd</p>
-                <p class="card-role">LEADER</p>
-                <a href="https://www.facebook.com/share/1GcKfENnSv/" class="view-profile" target="_blank">VIEW PROFILE</a>
-            </div>
-        </div>
-
-        <div class="card" data-name="LEADER 04">
-            <div class="card-logo"><img src="logo.png"></div>
-            <div class="card-info">
-                <p class="card-name">Yuki Godmyhxnd</p>
-                <p class="card-role">LEADER</p>
-                <a href="https://www.facebook.com/yukixers" class="view-profile" target="_blank">VIEW PROFILE</a>
-            </div>
-        </div>
-        
-        </main>
+        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">KISS GODMYHXND</p><p class="card-role">LEADER</p><a href="https://www.facebook.com/profile.php?id=61578063207491" class="view-profile" target="_blank">VIEW PROFILE</a></div></div>
+        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Jayleyz Godmyhxnd</p><p class="card-role">LEADER</p><a href="https://www.facebook.com/jayleyz.zerohour/" class="view-profile" target="_blank">VIEW PROFILE</a></div></div>
+        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Depp Godmyhxnd</p><p class="card-role">LEADER</p><a href="https://www.facebook.com/share/1WxkAL94mn/?mibextid=wwXIfr" class="view-profile" target="_blank">VIEW PROFILE</a></div></div>
+        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Azreal Godmyhxnd</p><p class="card-role">LEADER</p><a href="https://www.facebook.com/share/18hSBK3Sj9/?mibextid=wwXIfr" class="view-profile" target="_blank">VIEW PROFILE</a></div></div>
+        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Leon Godmyhxnd</p><p class="card-role">LEADER</p><a href="https://www.facebook.com/share/1CbEBRw8N7/?mibextid=wwXIfr" class="view-profile" target="_blank">VIEW PROFILE</a></div></div>
+        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Slamom Godmyhxnd</p><p class="card-role">LEADER</p><a href="https://www.facebook.com/share/1GcKfENnSv/" class="view-profile" target="_blank">VIEW PROFILE</a></div></div>
+        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Yuki Godmyhxnd</p><p class="card-role">LEADER</p><a href="https://www.facebook.com/yukixers" class="view-profile" target="_blank">VIEW PROFILE</a></div></div>
+    </main>
 
     <div class="pagination" id="paginationControls"></div>
 
+    <div id="music-player-container">
+        <div id="track-info">[ LOADING SYSTEM... ]</div>
+        <div class="player-controls">
+            <button onclick="prevTrack()">PREV</button>
+            <button id="playPauseBtn" onclick="togglePlayPause()">PAUSE</button>
+            <button onclick="nextTrack()">NEXT</button>
+        </div>
+        <div class="volume-box">
+            <span style="font-size: 8px; color: #666;">VOL</span>
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
+        </div>
+    </div>
+
+    <audio id="bgMusic" autoplay></audio>
+
     <script>
-        // --- ระบบ Pagination และ Search (เหมือนหน้า Founder) ---
-        const cardsGrid = document.getElementById('cardsGrid');
+        // --- 1. Logic: Pagination, Search & Auto-Sort A-Z ---
+        const grid = document.getElementById('cardsGrid');
         const allCards = Array.from(document.querySelectorAll('.card'));
         const searchInput = document.getElementById('searchInput');
         const paginationControls = document.getElementById('paginationControls');
 
         let currentPage = 1;
-        const itemsPerPage = 12; // 1 หน้ามี 12 คน (4 แถว แถวละ 3 คน)
-        let filteredCards = [...allCards];
+        const itemsPerPage = 12; 
+        let filteredCards = [];
+
+        // เรียงลำดับ A-Z ตั้งแต่เริ่มโหลดหน้า
+        const sortedCards = allCards.sort((a, b) => {
+            const nameA = a.querySelector('.card-name').innerText.toUpperCase();
+            const nameB = b.querySelector('.card-name').innerText.toUpperCase();
+            return nameA.localeCompare(nameB);
+        });
+
+        // ใส่กลับเข้า Grid
+        sortedCards.forEach(card => grid.appendChild(card));
+        filteredCards = [...sortedCards];
 
         function updateDisplay() {
-            // ซ่อนการ์ดทั้งหมดก่อน
             allCards.forEach(card => card.classList.add('hidden'));
-
-            // คำนวณช่วงข้อมูลที่จะแสดง
             const start = (currentPage - 1) * itemsPerPage;
             const end = start + itemsPerPage;
             const pageItems = filteredCards.slice(start, end);
-
-            // แสดงเฉพาะการ์ดในหน้านั้น
             pageItems.forEach(card => card.classList.remove('hidden'));
-
             renderPagination();
         }
 
         function renderPagination() {
             const pageCount = Math.ceil(filteredCards.length / itemsPerPage);
             paginationControls.innerHTML = '';
-
-            // ถ้าไม่มีข้อมูล หรือมีแค่หน้าเดียว ไม่ต้องแสดงปุ่มที่ซับซ้อน
             if (pageCount <= 1) {
-                if (pageCount === 1) {
-                    paginationControls.innerHTML = '<span class="page-info">PAGE 1 OF 1</span>';
-                }
+                if (pageCount === 1) paginationControls.innerHTML = `<span class="page-info">FOUND ${filteredCards.length} LEADERS</span>`;
                 return;
             }
-
-            // ปุ่มแรกสุด (First)
-            const firstBtn = document.createElement('button');
-            firstBtn.innerHTML = '<<';
-            firstBtn.disabled = currentPage === 1;
-            firstBtn.onclick = () => { currentPage = 1; updateDisplay(); };
-            paginationControls.appendChild(firstBtn);
-
-            // ปุ่มย้อนกลับ (Prev)
             const prevBtn = document.createElement('button');
-            prevBtn.innerHTML = 'PREV';
-            prevBtn.disabled = currentPage === 1;
-            prevBtn.onclick = () => { currentPage--; updateDisplay(); };
+            prevBtn.innerText = 'PREV'; prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => { currentPage--; updateDisplay(); window.scrollTo(0,0); };
             paginationControls.appendChild(prevBtn);
 
-            // แสดงเลขหน้าปัจจุบัน (Current / Total)
             const info = document.createElement('span');
-            info.className = 'page-info';
-            info.innerText = `PAGE ${currentPage} OF ${pageCount}`;
+            info.className = 'page-info'; info.innerText = `PAGE ${currentPage} OF ${pageCount}`;
             paginationControls.appendChild(info);
 
-            // ปุ่มไปหน้า (Next)
             const nextBtn = document.createElement('button');
-            nextBtn.innerHTML = 'NEXT';
-            nextBtn.disabled = currentPage === pageCount;
-            nextBtn.onclick = () => { currentPage++; updateDisplay(); };
+            nextBtn.innerText = 'NEXT'; nextBtn.disabled = currentPage === pageCount;
+            nextBtn.onclick = () => { currentPage++; updateDisplay(); window.scrollTo(0,0); };
             paginationControls.appendChild(nextBtn);
-
-            // ปุ่มสุดท้าย (Last)
-            const lastBtn = document.createElement('button');
-            lastBtn.innerHTML = '>>';
-            lastBtn.disabled = currentPage === pageCount;
-            lastBtn.onclick = () => { currentPage = pageCount; updateDisplay(); };
-            paginationControls.appendChild(lastBtn);
         }
 
-        // ระบบค้นหา (Search Logic)
         searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toUpperCase(); // รับค่าที่พิมพ์และเปลี่ยนเป็นตัวใหญ่
-            
-            // กรองข้อมูลตามชื่อ
-            filteredCards = allCards.filter(card => {
-                const name = card.getAttribute('data-name').toUpperCase();
-                return name.startsWith(term); // ค้นหาเฉพาะคนที่ชื่อขึ้นต้นด้วยคำที่พิมพ์
+            const term = e.target.value.toUpperCase();
+            filteredCards = sortedCards.filter(card => {
+                const name = card.querySelector('.card-name').innerText.toUpperCase();
+                return name.includes(term);
             });
-            
-            currentPage = 1; // เวลากรองใหม่ ให้กลับไปหน้า 1 เสมอ
+            currentPage = 1;
             updateDisplay();
         });
 
-        // เริ่มต้นการแสดงผล
         updateDisplay();
 
-        // --- ระบบหิมะ (เบาบาง) ---
+        // --- 2. Snow Effect ---
         (function() {
             const canvas = document.getElementById('snow-canvas');
             const ctx = canvas.getContext('2d');
             let width, height, particles = [];
-            
             function init() {
                 resize();
                 window.addEventListener('resize', resize);
-                // สร้างเกล็ดหิมะ 60 เกล็ด
                 for (let i = 0; i < 60; i++) particles.push({
                     x: Math.random() * innerWidth, y: Math.random() * innerHeight,
-                    r: Math.random() * 1.2 + 0.3, // ขนาดเกล็ด
-                    sy: Math.random() * 0.8 + 0.4, // ความเร็วตก (ช้าๆ)
-                    sx: Math.random() * 0.4 - 0.2  // ลมพัดออกข้างเล็กน้อย
+                    r: Math.random() * 1.2 + 0.3, sy: Math.random() * 0.8 + 0.4, sx: Math.random() * 0.4 - 0.2
                 });
                 animate();
             }
-            
             function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-            
             function animate() {
                 ctx.clearRect(0, 0, width, height);
-                // สีเกล็ดหิมะขาวจางๆ
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
                 particles.forEach(p => {
                     p.y += p.sy; p.x += p.sx;
-                    // เมื่อตกพ้นหน้าจอ ให้กลับไปเริ่มด้านบนใหม่
                     if (p.y > height) p.y = -10;
                     if (p.x > width) p.x = 0; else if (p.x < 0) p.x = width;
                     ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
@@ -473,148 +357,81 @@
             }
             init();
         })();
-    </script>
 
-    <div id="music-player-container">
-    <div id="track-info">[ LOADING SYSTEM... ]</div>
-    <div class="player-controls">
-        <button onclick="prevTrack()">PREV</button>
-        <button id="playPauseBtn" onclick="togglePlayPause()">PAUSE</button>
-        <button onclick="nextTrack()">NEXT</button>
-    </div>
-    <div class="volume-box">
-        <span style="font-size: 8px; color: #666;">VOL</span>
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
-    </div>
-</div>
+        // --- 3. Music Player System ---
+        const playlist = [
+            { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "PORZAX -  MV (1).mp3" },
+            { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -    MV.mp3" },
+            { name: "PORZAX - พอได้แล้ว (MV)", src: "PORZAX -  MV (2).mp3" },
+            { name: "PORZAX - อย่ามาพูดถึงคำว่ารัก", src: "PORZAX - 2 (2).mp3" },
+            { name: "PORZAX - ดอกไม้สีเทา Ft.Pondering", src: "PORZAX - .mp3" },
+            { name: "PORZAX - สิ้นสุดความพยายาม ", src: "PORZAX - 2.mp3" },
+            { name: "PORZAX - สิ้นสุดแรงรั้ง ", src: "PORZAX -    Special Version.mp3" },
+            { name: "PORZAX - รักร้ายท้ายสุด", src: "PORZAX -  11(1).mp3" },
+            { name: "PORZAX - หนึ่งในร้อย", src: "PORZAX -  FtRachYO.mp3" }
+        ];
 
-<style>
-    #music-player-container {
-        position: fixed; bottom: 0; left: 0; width: 100%;
-        background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(5px);
-        border-top: 1px solid #333; padding: 12px 0; z-index: 1000;
-        font-family: 'Courier New', monospace; display: flex;
-        flex-direction: column; align-items: center;
-    }
-    @media (min-width: 768px) {
-        #music-player-container {
-            width: 240px; bottom: 20px; right: 20px; left: auto;
-            border: 1px solid #333; border-left: 3px solid #fff; padding: 15px;
+        let currentTrackIndex = parseInt(localStorage.getItem('godmy_musicIndex')) || 0;
+        const music = document.getElementById('bgMusic');
+        const trackInfo = document.getElementById('track-info');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+
+        function loadTrack(index) {
+            music.src = playlist[index].src;
+            trackInfo.innerText = `[ PLAYING: ${playlist[index].name} ]`;
+            localStorage.setItem('godmy_musicIndex', index);
         }
-    }
-    #track-info { font-size: 10px; color: #fff; margin-bottom: 8px; width: 90%; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .player-controls { display: flex; gap: 10px; margin-bottom: 10px; }
-    .player-controls button { background: none; border: 1px solid #444; color: #fff; cursor: pointer; font-size: 9px; padding: 4px 12px; }
-    #playPauseBtn { background: #fff !important; color: #000 !important; border: none !important; font-weight: bold; }
-    .volume-box { display: flex; align-items: center; gap: 10px; width: 80%; max-width: 250px; }
-    input[type=range] { flex: 1; cursor: pointer; accent-color: #fff; }
-</style>
 
-<audio id="bgMusic" autoplay></audio>
-
-<script>
-    // 1. รายชื่อเพลง (ต้องเหมือนกันทุกหน้าเป๊ะๆ)
-    const playlist = [
-        { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "PORZAX -  MV (1).mp3" },
-        { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -    MV.mp3" },
-        { name: "PORZAX - พอได้แล้ว (MV)", src: "PORZAX -  MV (2).mp3" },
-        { name: "PORZAX - อย่ามาพูดถึงคำว่ารัก", src: "PORZAX - 2 (2).mp3" },
-        { name: "PORZAX - ดอกไม้สีเทา Ft.Pondering", src: "PORZAX - .mp3" },
-        { name: "PORZAX - สิ้นสุดความพยายาม ", src: "PORZAX - 2.mp3" },
-        { name: "PORZAX - สิ้นสุดแรงรั้ง ", src: "PORZAX -    Special Version.mp3" },
-        { name: "PORZAX - PORZAX - รักร้ายท้ายสุด ", src: "PORZAX -  11(1).mp3" },
-        { name: "PORZAX - PORZAX - รักร้ายท้ายสุด ", src: "PORZAX -  FtRachYO.mp3" },
-    ];
-
-    let currentTrackIndex = parseInt(localStorage.getItem('godmy_musicIndex')) || 0;
-    const music = document.getElementById('bgMusic');
-    const trackInfo = document.getElementById('track-info');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const volumeSlider = document.getElementById('volumeSlider');
-
-    // ฟังก์ชันโหลดเพลง
-    function loadTrack(index) {
-        music.src = playlist[index].src;
-        trackInfo.innerText = `[ PLAYING: ${playlist[index].name} ]`;
-        localStorage.setItem('godmy_musicIndex', index);
-    }
-
-    // [หัวใจสำคัญ] บันทึกเวลาทันทีที่ User กำลังจะออกจากหน้า (รวมถึงกด Back)
-    window.onbeforeunload = function() {
-        localStorage.setItem('godmy_musicTime', music.currentTime);
-        localStorage.setItem('godmy_paused', music.paused); // จำไว้ด้วยว่าเปิดหรือปิดเพลงอยู่
-    };
-
-    // สำรอง: บันทึกทุก 1 วินาทีกันเหนียว
-    setInterval(() => {
-        if (!music.paused) {
+        window.onbeforeunload = () => {
             localStorage.setItem('godmy_musicTime', music.currentTime);
-        }
-    }, 1000);
+            localStorage.setItem('godmy_paused', music.paused);
+        };
 
-    function togglePlayPause() {
-        if (music.paused) { 
-            music.play(); 
-            playPauseBtn.innerText = 'PAUSE'; 
-        } else { 
-            music.pause(); 
-            playPauseBtn.innerText = 'PLAY'; 
-        }
-    }
-
-    function nextTrack() {
-        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
-        localStorage.setItem('godmy_musicTime', 0); // เริ่มเพลงใหม่จาก 0
-        loadTrack(currentTrackIndex);
-        music.play();
-        playPauseBtn.innerText = 'PAUSE';
-    }
-
-    function prevTrack() {
-        currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
-        localStorage.setItem('godmy_musicTime', 0);
-        loadTrack(currentTrackIndex);
-        music.play();
-        playPauseBtn.innerText = 'PAUSE';
-    }
-
-    music.onended = () => nextTrack();
-
-    // ตั้งค่าระดับเสียง
-    const savedVol = localStorage.getItem('godmy_volume');
-    music.volume = savedVol ? parseFloat(savedVol) : 0.5;
-    volumeSlider.value = music.volume;
-
-    volumeSlider.oninput = (e) => { 
-        music.volume = e.target.value; 
-        localStorage.setItem('godmy_volume', e.target.value);
-    };
-
-    // เริ่มทำงานเมื่อโหลดหน้า
-    window.addEventListener('load', () => {
-        loadTrack(currentTrackIndex);
-        
-        // ดึงวินาทีล่าสุดจาก localStorage
-        const savedTime = localStorage.getItem('godmy_musicTime');
-        if (savedTime) {
-            music.currentTime = parseFloat(savedTime);
+        function togglePlayPause() {
+            if (music.paused) { music.play(); playPauseBtn.innerText = 'PAUSE'; }
+            else { music.pause(); playPauseBtn.innerText = 'PLAY'; }
         }
 
-        // เช็คสถานะก่อนหน้า (ถ้า User กด Pause ไว้ก่อนไปหน้าอื่น ก็ไม่ต้อง Auto-play)
-        const wasPaused = localStorage.getItem('godmy_paused') === 'true';
-
-        if (!wasPaused) {
-            let playAttempt = setInterval(() => {
-                music.play().then(() => {
-                    clearInterval(playAttempt);
-                    playPauseBtn.innerText = 'PAUSE';
-                }).catch(e => console.log("System Syncing Music..."));
-            }, 600);
-        } else {
-            playPauseBtn.innerText = 'PLAY';
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+            localStorage.setItem('godmy_musicTime', 0);
+            loadTrack(currentTrackIndex); music.play();
+            playPauseBtn.innerText = 'PAUSE';
         }
-    });
-</script>
 
+        function prevTrack() {
+            currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            localStorage.setItem('godmy_musicTime', 0);
+            loadTrack(currentTrackIndex); music.play();
+            playPauseBtn.innerText = 'PAUSE';
+        }
+
+        music.onended = () => nextTrack();
+
+        window.addEventListener('load', () => {
+            loadTrack(currentTrackIndex);
+            const savedTime = localStorage.getItem('godmy_musicTime');
+            if (savedTime) music.currentTime = parseFloat(savedTime);
+            
+            const savedVol = localStorage.getItem('godmy_volume');
+            music.volume = savedVol ? parseFloat(savedVol) : 0.5;
+            volumeSlider.value = music.volume;
+
+            if (localStorage.getItem('godmy_paused') !== 'true') {
+                let attempt = setInterval(() => {
+                    music.play().then(() => {
+                        clearInterval(attempt);
+                        playPauseBtn.innerText = 'PAUSE';
+                    }).catch(() => {});
+                }, 600);
+            } else { playPauseBtn.innerText = 'PLAY'; }
+        });
+
+        volumeSlider.oninput = (e) => {
+            music.volume = e.target.value;
+            localStorage.setItem('godmy_volume', e.target.value);
+        };
+    </script>
 </body>
 </html>
