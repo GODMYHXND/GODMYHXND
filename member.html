@@ -125,17 +125,24 @@
 
         .card:hover::before { opacity: 1; box-shadow: 0 0 10px #fff; }
 
+        /* --- แก้ไขส่วน Card Logo --- */
         .card-logo {
-            width: 70px; height: 70px;
+            width: 70px; 
+            height: 70px;
             background: #111;
             border: 1px solid #333;
             margin-right: 20px;
             flex-shrink: 0;
-            display: flex; justify-content: center; align-items: center;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            overflow: hidden; /* ตัดรูปที่เกินขอบออก */
         }
 
         .card-logo img {
-            max-width: 80%;
+            width: 100%;     /* ขยายความกว้างเต็มกรอบ */
+            height: 100%;    /* ขยายความสูงเต็มกรอบ */
+            object-fit: cover; /* จัดการสัดส่วนภาพแบบ cover ไม่ให้ภาพเบี้ยว */
             opacity: 0.6;
             filter: grayscale(100%);
             transition: 0.3s;
@@ -246,7 +253,7 @@
         <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Gameqp Godmyhxnd</p><p class="card-role">MEMBER</p><a href="https://www.facebook.com/profile.php?id=61558457513746" class="view-profile">VIEW PROFILE</a></div></div>
         <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Sinny Godmyhxnd</p><p class="card-role">MEMBER</p><a href="https://www.facebook.com/share/1876DL16w2/?mibextid=wwXIfr" class="view-profile">VIEW PROFILE</a></div></div>
         <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Bxngflex Godmyhxnd</p><p class="card-role">MEMBER</p><a href="https://www.facebook.com/share/1A4sXwjQgL/?mibextid=wwXIfr" class="view-profile">VIEW PROFILE</a></div></div>
-        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Axe Godmyhxnd</p><p class="card-role">MEMBER</p><a href="https://www.facebook.com/profile.php?id=61587054631381&locale=th_TH" class="view-profile" class="view-profile">VIEW PROFILE</a></div></div>
+        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Axe Godmyhxnd</p><p class="card-role">MEMBER</p><a href="https://www.facebook.com/profile.php?id=61587054631381&locale=th_TH" class="view-profile">VIEW PROFILE</a></div></div>
         <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Jaokhun Godmyhxnd</p><p class="card-role">MEMBER</p><a href="https://www.facebook.com/share/1C2jX5sNC6/" class="view-profile">VIEW PROFILE</a></div></div>
         <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Tunder Godmyhxnd</p><p class="card-role">MEMBER</p><a href="https://www.facebook.com/share/1DMtUX6H8Z/?mibextid=wwXIfr" class="view-profile">VIEW PROFILE</a></div></div>
         <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Real Godmyhxnd</p><p class="card-role">MEMBER</p><a href="https://www.facebook.com/share/1GyRh4urzy/" class="view-profile">VIEW PROFILE</a></div></div>
