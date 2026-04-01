@@ -3,83 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEVERBROKE GODMYHXND - House of GODMYHXND</title>
+    <title>Leader List - House of GODMYHXND</title>
     <style>
-        /* --- CSS เน้นสีเหลืองทอง (#ffca28) --- */
-        body { background-color: #000; color: #fff; font-family: 'Courier New', monospace; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; position: relative; }
-        #snow-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
-        
-        .header { width: 100%; padding: 30px 50px; display: flex; justify-content: space-between; align-items: flex-start; z-index: 10; box-sizing: border-box; }
-        .page-title { font-size: 32px; font-weight: bold; margin: 0; color: #ffca28; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 15px rgba(255, 202, 40, 0.3); }
-        
-        .search-container { margin-top: 20px; width: 100%; max-width: 400px; }
-        .search-input { width: 100%; padding: 10px 15px; background: rgba(255,255,255,0.05); border: 1px solid #333; color: #fff; font-family: inherit; outline: none; text-transform: uppercase; transition: 0.3s; }
-        .search-input:focus { border-color: #ffca28; box-shadow: 0 0 10px rgba(255, 202, 40, 0.2); }
-        
-        .back-btn { padding: 8px 20px; border: 1px solid #444; color: #fff; text-decoration: none; font-size: 12px; background: rgba(255,255,255,0.05); transition: 0.3s; text-transform: uppercase; }
-        .back-btn:hover { background: #fff; color: #000; }
+        /* --- CSS หลักสไตล์ Black & Gold --- */
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-        /* Grid Layout */
-        .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; width: 95%; max-width: 1200px; padding: 40px 0; z-index: 5; }
-        .card { background: rgba(15,15,15,0.8); border: 1px solid #222; height: 140px; display: flex; align-items: center; padding: 20px; box-sizing: border-box; position: relative; transition: 0.3s; }
+        #snow-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- Header --- */
+        .header {
+            width: 100%;
+            padding: 40px 60px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 10;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #ffca28; /* สีเหลืองทอง */
+            text-shadow: 0 0 15px rgba(255, 202, 40, 0.4);
+        }
+
+        .search-container {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #333;
+            color: #ffca28;
+            font-family: inherit;
+            outline: none;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #ffca28;
+            box-shadow: 0 0 10px rgba(255, 202, 40, 0.3);
+        }
+
+        .back-btn {
+            padding: 10px 25px;
+            border: 1px solid #ffca28;
+            color: #ffca28;
+            text-decoration: none;
+            font-size: 13px;
+            background: rgba(255, 202, 40, 0.05);
+            text-transform: uppercase;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .back-btn:hover { background: #ffca28; color: #000; }
+
+        /* --- Grid Layout --- */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            width: 90%;
+            max-width: 1200px;
+            padding: 20px 0 150px 0;
+            z-index: 5;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #111, #050505);
+            border: 1px solid #222;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
         .card.hidden { display: none !important; }
-        
-        /* เส้นเรืองแสงสีทองด้านข้าง */
-        .card::before { content: ''; position: absolute; left: 0; top: 15%; width: 3px; height: 70%; background-color: #ffca28; opacity: 0.3; transition: 0.3s; }
-        .card:hover { border-color: #ffca28; transform: translateY(-5px); background: rgba(25, 25, 25, 0.9); }
-        .card:hover::before { opacity: 1; box-shadow: 0 0 10px #ffca28; }
 
-        /* --- แก้ไข: ส่วนแสดงรูปภาพให้เต็มกรอบ --- */
-        .card-logo { 
-            width: 80px; 
-            height: 100px; 
-            background: #111; 
-            border: 1px solid #333; 
-            margin-right: 20px; 
-            flex-shrink: 0; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
+        .card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; width: 4px; height: 100%;
+            background-color: #ffca28;
+            opacity: 0.3;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            border-color: #ffca28;
+            transform: translateY(-8px);
+            background: rgba(20, 20, 20, 1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .card:hover::before { opacity: 1; box-shadow: 0 0 15px #ffca28; }
+
+        /* --- Photo Frame --- */
+        .card-logo {
+            width: 90px; height: 120px; /* ทรงแนวตั้งตามรูปตัวอย่าง */
+            background: #000;
+            border: 1px solid #333;
+            margin-right: 20px;
+            flex-shrink: 0;
+            display: flex; justify-content: center; align-items: center;
             overflow: hidden; 
         }
-        .card-logo img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            opacity: 0.9; 
-            transition: 0.3s; 
+
+        .card-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.8);
+            transition: 0.5s;
         }
-        .card:hover .card-logo img { 
-            opacity: 1; 
-            transform: scale(1.05);
+
+        .card:hover .card-logo img { filter: brightness(1.1); transform: scale(1.1); }
+
+        .card-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-role {
+            font-size: 11px;
+            color: #ffca28;
+            margin: 6px 0;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .view-profile {
+            font-size: 11px;
+            color: #666;
+            text-decoration: none;
+            margin-top: 15px;
+            display: inline-block;
+            text-transform: uppercase;
+            border-bottom: 1px solid #333;
+            transition: 0.3s;
+        }
+
+        .view-profile:hover { color: #ffca28; border-color: #ffca28; }
+
+        /* --- Pagination --- */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 150px; 
+            z-index: 10;
         }
         
-        .card-name { font-size: 14px; font-weight: bold; margin: 0; color: #fff; text-transform: uppercase; }
-        .card-role { font-size: 10px; color: #666; margin: 4px 0; text-transform: uppercase; }
-        .view-profile { font-size: 11px; color: #ffca28; text-decoration: none; margin-top: 10px; display: block; text-transform: uppercase; transition: 0.2s; }
-        .view-profile:hover { color: #fff; text-shadow: 0 0 5px #ffca28; }
-
-        /* Pagination */
-        .pagination { display: flex; justify-content: center; align-items: center; gap: 5px; margin-bottom: 150px; z-index: 10; }
-        .pagination button { background: rgba(255,255,255,0.05); border: 1px solid #333; color: #fff; padding: 8px 15px; cursor: pointer; font-family: inherit; font-size: 12px; transition: 0.3s; }
-        .pagination button:hover:not(:disabled) { background: #fff; color: #000; }
+        .pagination button {
+            background: transparent;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+        
+        .pagination button:hover:not(:disabled) { border-color: #ffca28; color: #ffca28; }
         .pagination button:disabled { opacity: 0.2; cursor: not-allowed; }
-        .page-info { color: #ffca28; font-size: 13px; margin: 0 15px; }
 
-        @media (max-width: 900px) { 
-            .cards-grid { grid-template-columns: 1fr; } 
-            .header { padding: 20px; flex-direction: column; gap: 15px; }
+        .page-info { color: #ffca28; font-size: 13px; margin: 0 15px; font-weight: bold; }
+
+        /* --- Music Player Bar (Full Width Bottom) --- */
+        #music-player-container {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px);
+            border-top: 2px solid #ffca28; padding: 15px 40px; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            box-sizing: border-box;
         }
 
-        /* Music Player */
-        #music-player-container { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(5px); border-top: 1px solid #333; padding: 12px 0; z-index: 1000; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; }
-        @media (min-width: 768px) { #music-player-container { width: 240px; bottom: 20px; right: 20px; left: auto; border: 1px solid #333; border-left: 3px solid #ffca28; padding: 15px; } }
-        #track-info { font-size: 10px; color: #fff; margin-bottom: 8px; width: 90%; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .player-controls { display: flex; gap: 10px; margin-bottom: 10px; }
-        .player-controls button { background: none; border: 1px solid #444; color: #fff; cursor: pointer; font-size: 9px; padding: 4px 12px; }
+        #track-info { font-size: 12px; color: #ffca28; font-weight: bold; width: 30%; }
+        .player-controls { display: flex; gap: 15px; }
+        .player-controls button { background: none; border: 1px solid #444; color: #fff; cursor: pointer; font-size: 10px; padding: 8px 15px; }
+        .player-controls button:hover { border-color: #ffca28; }
         #playPauseBtn { background: #ffca28 !important; color: #000 !important; border: none !important; font-weight: bold; }
-        .volume-box { display: flex; align-items: center; gap: 10px; width: 80%; max-width: 250px; }
+        
+        .volume-box { display: flex; align-items: center; gap: 15px; width: 200px; }
         input[type=range] { flex: 1; cursor: pointer; accent-color: #ffca28; }
+
+        @media (max-width: 900px) {
+            .cards-grid { grid-template-columns: 1fr; }
+            .header { padding: 20px; flex-direction: column; gap: 15px; }
+            #music-player-container { flex-direction: column; gap: 10px; padding: 20px; }
+            #track-info { width: 100%; text-align: center; }
+        }
     </style>
 </head>
 <body>
@@ -88,74 +236,35 @@
 
     <header class="header">
         <div class="title-group">
-            <h1 class="page-title">NEVERBROKE GODMY</h1>
+            <h1 class="page-title">LEADER LIST</h1>
             <div class="search-container">
-                <input type="text" id="searchInput" class="search-input" placeholder="FIND BY NAME...">
+                <input type="text" id="searchInput" class="search-input" placeholder="FIND LEADER BY NAME...">
             </div>
         </div>
-        <a href="index.html" class="back-btn">BACK</a>
+        <a href="index.html" class="back-btn">RETURN HOME</a>
     </header>
 
     <main class="cards-grid" id="cardsGrid">
-        <div class="card">
-            <div class="card-logo"><img src="https://img2.pic.in.th/image-removebg-preview-11702e540026f771a.png"></div>
-            <div class="card-info">
-                <p class="card-name">Aegonx Neverbroke Gmh</p>
-                <p class="card-role">CO-FOUNDER</p>
-                <a href="https://www.facebook.com/profile.php?id=61577571792218" class="view-profile" target="_blank">VIEW PROFILE</a>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-logo"><img src="https://img2.pic.in.th/image-removebg-preview-11702e540026f771a.png"></div>
-            <div class="card-info">
-                <p class="card-name">Queue Neverbroke Gmh</p>
-                <p class="card-role">CO-FOUNDER</p>
-                <a href="https://www.facebook.com/queue.neverbroke.gmh" class="view-profile" target="_blank">VIEW PROFILE</a>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-logo"><img src="https://img2.pic.in.th/image-removebg-preview-11702e540026f771a.png"></div>
-            <div class="card-info">
-                <p class="card-name">Quentin Neverbroke Gmh</p>
-                <p class="card-role">CO-FOUNDER</p>
-                <a href="https://www.facebook.com/quentin.neverbroke" class="view-profile" target="_blank">VIEW PROFILE</a>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-logo"><img src="https://img1.pic.in.th/images/400b89273b0df536cbc8183f41c11e33.jpg"></div>
-            <div class="card-info">
-                <p class="card-name">Kiss Neverbroke Gmh</p>
-                <p class="card-role">CO-FOUNDER</p>
-                <a href="https://www.facebook.com/profile.php?id=61578063207491" class="view-profile" target="_blank">VIEW PROFILE</a>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-logo"><img src=""></div>
-            <div class="card-info">
-                <p class="card-name">Azreal Neverbroke Gmh</p>
-                <p class="card-role">CO-FOUNDER</p>
-                <a href="https://img2.pic.in.th/image-removebg-preview-11702e540026f771a.png" class="view-profile" target="_blank">VIEW PROFILE</a>
-            </div>
-        </div>
-
+        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Jayleyz Godmyhxnd</p><p class="card-role">LEADER</p><a href="https://www.facebook.com/jayleyz.zerohour/" class="view-profile" target="_blank">VIEW DOSSIER</a></div></div>
+        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Depp Godmyhxnd</p><p class="card-role">LEADER</p><a href="https://www.facebook.com/share/1WxkAL94mn/?mibextid=wwXIfr" class="view-profile" target="_blank">VIEW DOSSIER</a></div></div>
+        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Azreal Godmyhxnd</p><p class="card-role">LEADER</p><a href="https://www.facebook.com/share/18hSBK3Sj9/?mibextid=wwXIfr" class="view-profile" target="_blank">VIEW DOSSIER</a></div></div>
+        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Leon Godmyhxnd</p><p class="card-role">LEADER</p><a href="https://www.facebook.com/share/1CbEBRw8N7/?mibextid=wwXIfr" class="view-profile" target="_blank">VIEW DOSSIER</a></div></div>
+        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Slamom Godmyhxnd</p><p class="card-role">LEADER</p><a href="https://www.facebook.com/share/1GcKfENnSv/" class="view-profile" target="_blank">VIEW DOSSIER</a></div></div>
+        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Yuki Godmyhxnd</p><p class="card-role">LEADER</p><a href="https://www.facebook.com/yukixers" class="view-profile" target="_blank">VIEW DOSSIER</a></div></div>
+        <div class="card"><div class="card-logo"><img src="logo.png"></div><div class="card-info"><p class="card-name">Porsche Godmyhxnd</p><p class="card-role">LEADER</p><a href="https://www.facebook.com/porsche.godmyhxnd" class="view-profile" target="_blank">VIEW DOSSIER</a></div></div>
     </main>
-
 
     <div class="pagination" id="paginationControls"></div>
 
     <div id="music-player-container">
-        <div id="track-info">[ SYNCING AUDIO... ]</div>
+        <div id="track-info">[ SYNCING SYSTEM... ]</div>
         <div class="player-controls">
             <button onclick="prevTrack()">PREV</button>
             <button id="playPauseBtn" onclick="togglePlayPause()">PAUSE</button>
             <button onclick="nextTrack()">NEXT</button>
         </div>
         <div class="volume-box">
-            <span style="font-size: 8px; color: #666;">VOL</span>
+            <span style="font-size: 10px; color: #ffca28;">VOL</span>
             <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
         </div>
     </div>
@@ -163,23 +272,24 @@
     <audio id="bgMusic" autoplay></audio>
 
     <script>
-        // --- Logic: Search, Pagination & A-Z Sort ---
+        // --- 1. Logic: Pagination, Search & Auto-Sort A-Z ---
         const grid = document.getElementById('cardsGrid');
         const allCards = Array.from(document.querySelectorAll('.card'));
         const searchInput = document.getElementById('searchInput');
         const paginationControls = document.getElementById('paginationControls');
 
         let currentPage = 1;
-        const itemsPerPage = 12;
+        const itemsPerPage = 12; 
+        let filteredCards = [];
 
-        // Auto Sort A-Z
         const sortedCards = allCards.sort((a, b) => {
             const nameA = a.querySelector('.card-name').innerText.toUpperCase();
             const nameB = b.querySelector('.card-name').innerText.toUpperCase();
             return nameA.localeCompare(nameB);
         });
+
         sortedCards.forEach(card => grid.appendChild(card));
-        let filteredCards = [...sortedCards];
+        filteredCards = [...sortedCards];
 
         function updateDisplay() {
             allCards.forEach(card => card.classList.add('hidden'));
@@ -194,38 +304,66 @@
             const pageCount = Math.ceil(filteredCards.length / itemsPerPage);
             paginationControls.innerHTML = '';
             if (pageCount <= 1) {
-                if(pageCount === 1) paginationControls.innerHTML = `<span class="page-info">FOUND ${filteredCards.length} MEMBERS</span>`;
+                if (pageCount === 1) paginationControls.innerHTML = `<span class="page-info">FOUND ${filteredCards.length} LEADERS</span>`;
                 return;
             }
-            const createBtn = (text, action, disabled) => {
-                const btn = document.createElement('button'); btn.innerText = text;
-                btn.disabled = disabled; btn.onclick = action; return btn;
-            };
-            paginationControls.appendChild(createBtn('PREV', () => { currentPage--; updateDisplay(); window.scrollTo(0,0); }, currentPage === 1));
-            const info = document.createElement('span'); info.className = 'page-info'; info.innerText = `PAGE ${currentPage} OF ${pageCount}`;
+            const prevBtn = document.createElement('button');
+            prevBtn.innerText = 'PREV'; prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => { currentPage--; updateDisplay(); window.scrollTo(0,0); };
+            paginationControls.appendChild(prevBtn);
+
+            const info = document.createElement('span');
+            info.className = 'page-info'; info.innerText = `PAGE ${currentPage} OF ${pageCount}`;
             paginationControls.appendChild(info);
-            paginationControls.appendChild(createBtn('NEXT', () => { currentPage++; updateDisplay(); window.scrollTo(0,0); }, currentPage === pageCount));
+
+            const nextBtn = document.createElement('button');
+            nextBtn.innerText = 'NEXT'; nextBtn.disabled = currentPage === pageCount;
+            nextBtn.onclick = () => { currentPage++; updateDisplay(); window.scrollTo(0,0); };
+            paginationControls.appendChild(nextBtn);
         }
 
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toUpperCase();
-            filteredCards = sortedCards.filter(card => card.querySelector('.card-name').innerText.toUpperCase().includes(term));
-            currentPage = 1; updateDisplay();
+            filteredCards = sortedCards.filter(card => {
+                const name = card.querySelector('.card-name').innerText.toUpperCase();
+                return name.includes(term);
+            });
+            currentPage = 1;
+            updateDisplay();
         });
 
         updateDisplay();
 
-        // --- Snow Effect ---
+        // --- 2. Snow Effect ---
         (function() {
-            const canvas = document.getElementById('snow-canvas'); const ctx = canvas.getContext('2d');
+            const canvas = document.getElementById('snow-canvas');
+            const ctx = canvas.getContext('2d');
             let width, height, particles = [];
-            function init() { resize(); window.addEventListener('resize', resize); for (let i = 0; i < 60; i++) particles.push({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, r: Math.random() * 1.5 + 0.2, sy: Math.random() * 0.8 + 0.4, sx: Math.random() * 0.4 - 0.2 }); animate(); }
+            function init() {
+                resize();
+                window.addEventListener('resize', resize);
+                for (let i = 0; i < 60; i++) particles.push({
+                    x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+                    r: Math.random() * 1.2 + 0.3, sy: Math.random() * 0.8 + 0.4, sx: Math.random() * 0.4 - 0.2
+                });
+                animate();
+            }
             function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-            function animate() { ctx.clearRect(0, 0, width, height); ctx.fillStyle = 'rgba(255, 255, 255, 0.3)'; particles.forEach(p => { p.y += p.sy; p.x += p.sx; if (p.y > height) p.y = -10; if (p.x > width) p.x = 0; else if (p.x < 0) p.x = width; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill(); }); requestAnimationFrame(animate); }
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                particles.forEach(p => {
+                    p.y += p.sy; p.x += p.sx;
+                    if (p.y > height) p.y = -10;
+                    if (p.x > width) p.x = 0; else if (p.x < 0) p.x = width;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
             init();
         })();
 
-        // --- Music System (Sync across pages) ---
+        // --- 3. Music Player System ---
         const playlist = [
             { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "PORZAX -  MV (1).mp3" },
             { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -    MV.mp3" },
@@ -246,7 +384,7 @@
 
         function loadTrack(index) {
             music.src = playlist[index].src;
-            trackInfo.innerText = `[ PLAYING: ${playlist[index].name} ]`;
+            trackInfo.innerText = `NOW PLAYING: ${playlist[index].name}`;
             localStorage.setItem('godmy_musicIndex', index);
         }
 
@@ -287,12 +425,18 @@
 
             if (localStorage.getItem('godmy_paused') !== 'true') {
                 let attempt = setInterval(() => {
-                    music.play().then(() => { clearInterval(attempt); playPauseBtn.innerText = 'PAUSE'; }).catch(() => {});
+                    music.play().then(() => {
+                        clearInterval(attempt);
+                        playPauseBtn.innerText = 'PAUSE';
+                    }).catch(() => {});
                 }, 600);
             } else { playPauseBtn.innerText = 'PLAY'; }
         });
 
-        volumeSlider.oninput = (e) => { music.volume = e.target.value; localStorage.setItem('godmy_volume', e.target.value); };
+        volumeSlider.oninput = (e) => {
+            music.volume = e.target.value;
+            localStorage.setItem('godmy_volume', e.target.value);
+        };
     </script>
 </body>
 </html>
