@@ -16,8 +16,6 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
-
-         
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
@@ -67,7 +65,6 @@
             outline: none;
             text-transform: uppercase;
             transition: 0.3s;
-            
             pointer-events: auto;
         }
 
@@ -147,7 +144,6 @@
             opacity: 0.7;
             filter: grayscale(100%);
             transition: 0.3s;
-          
             pointer-events: none;
             -webkit-touch-callout: none;
         }
@@ -257,10 +253,10 @@
         </div>
     </div>
 
-    <audio id="bgMusic" autoplay></audio>
+    <audio id="bgMusic" preload="auto"></audio>
 
     <script>
-        
+      
         document.onkeydown = function(e) {
             if (e.keyCode == 123) return false;
             if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
@@ -269,10 +265,9 @@
             if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
         };
 
-       
         setInterval(function() { (function() {}.constructor("debugger")()); }, 1000);
 
-        
+      
         const grid = document.getElementById('cardsGrid');
         const allCards = Array.from(document.querySelectorAll('.card'));
         const searchInput = document.getElementById('searchInput');
@@ -334,7 +329,6 @@
 
         updateDisplay();
 
-        
         (function() {
             const canvas = document.getElementById('snow-canvas');
             const ctx = canvas.getContext('2d');
@@ -363,7 +357,7 @@
             init();
         })();
 
-        
+     
         const playlist = [
             { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "PORZAX -  MV (1).mp3" },
             { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -   MV.mp3" },
@@ -384,6 +378,7 @@
 
         function loadTrack(index) {
             music.src = playlist[index].src;
+            music.load();
             trackInfo.innerText = `[ PLAYING: ${playlist[index].name} ]`;
             localStorage.setItem('godmy_musicIndex', index);
         }
@@ -394,28 +389,37 @@
         };
 
         function togglePlayPause() {
-            if (music.paused) { music.play(); playPauseBtn.innerText = 'PAUSE'; }
-            else { music.pause(); playPauseBtn.innerText = 'PLAY'; }
+            if (music.paused) { 
+                music.play().then(() => playPauseBtn.innerText = 'PAUSE');
+            } else { 
+                music.pause(); 
+                playPauseBtn.innerText = 'PLAY'; 
+            }
+        }
+
+        function playTrackSync(index) {
+            localStorage.setItem('godmy_musicTime', 0);
+            loadTrack(index);
+            music.play().then(() => {
+                playPauseBtn.innerText = 'PAUSE';
+            }).catch(e => console.log("Blocked:", e));
         }
 
         function nextTrack() {
             currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
-            localStorage.setItem('godmy_musicTime', 0);
-            loadTrack(currentTrackIndex); music.play();
-            playPauseBtn.innerText = 'PAUSE';
+            playTrackSync(currentTrackIndex);
         }
 
         function prevTrack() {
             currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
-            localStorage.setItem('godmy_musicTime', 0);
-            loadTrack(currentTrackIndex); music.play();
-            playPauseBtn.innerText = 'PAUSE';
+            playTrackSync(currentTrackIndex);
         }
 
         music.onended = () => nextTrack();
 
         window.addEventListener('load', () => {
             loadTrack(currentTrackIndex);
+            
             const savedTime = localStorage.getItem('godmy_musicTime');
             if (savedTime) music.currentTime = parseFloat(savedTime);
             
@@ -424,13 +428,19 @@
             volumeSlider.value = music.volume;
 
             if (localStorage.getItem('godmy_paused') !== 'true') {
-                let attempt = setInterval(() => {
+                const autoPlay = () => {
                     music.play().then(() => {
-                        clearInterval(attempt);
                         playPauseBtn.innerText = 'PAUSE';
-                    }).catch(() => {});
-                }, 600);
-            } else { playPauseBtn.innerText = 'PLAY'; }
+                        window.removeEventListener('click', autoPlay);
+                    }).catch(() => {
+                        playPauseBtn.innerText = 'PLAY';
+                        window.addEventListener('click', autoPlay, { once: true });
+                    });
+                };
+                autoPlay();
+            } else { 
+                playPauseBtn.innerText = 'PLAY'; 
+            }
         });
 
         volumeSlider.oninput = (e) => {
