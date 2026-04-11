@@ -16,7 +16,6 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
-         
             -webkit-user-select: none;
             -ms-user-select: none;
             user-select: none;
@@ -40,7 +39,6 @@
         .search-input {
             width: 100%; padding: 10px 15px; background: rgba(255, 255, 255, 0.05);
             border: 1px solid #333; color: #fff; font-family: inherit; outline: none; text-transform: uppercase;
-            
             -webkit-user-select: text;
             -ms-user-select: text;
             user-select: text;
@@ -129,7 +127,6 @@
             .header { padding: 20px; flex-direction: column; gap: 15px; }
         }
 
-        
         #music-player-container {
             position: fixed; bottom: 0; left: 0; width: 100%;
             background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(5px);
@@ -177,7 +174,7 @@
         <div id="track-info">[ LOADING SYSTEM... ]</div>
         <div class="player-controls">
             <button onclick="prevTrack()">PREV</button>
-            <button id="playPauseBtn" onclick="togglePlayPause()">PAUSE</button>
+            <button id="playPauseBtn" onclick="togglePlayPause()">PLAY</button>
             <button onclick="nextTrack()">NEXT</button>
         </div>
         <div class="volume-box">
@@ -186,14 +183,12 @@
         </div>
     </div>
 
-    <audio id="bgMusic" autoplay></audio>
+    <audio id="bgMusic"></audio>
 
     <script>
-       
+        
         (function() {
-          
             document.addEventListener('contextmenu', e => e.preventDefault());
-           
             document.onkeydown = function(e) {
                 if (e.keyCode == 123) return false; 
                 if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false; 
@@ -203,7 +198,6 @@
             };
         })();
 
-        
         const allCards = Array.from(document.querySelectorAll('.card'));
         const searchInput = document.getElementById('searchInput');
         const paginationControls = document.getElementById('paginationControls');
@@ -270,7 +264,7 @@
 
         updateDisplay();
 
-      
+        
         (function() {
             const canvas = document.getElementById('snow-canvas');
             const ctx = canvas.getContext('2d');
@@ -299,7 +293,7 @@
             init();
         })();
 
-      
+        
         const playlist = [
             { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "PORZAX -  MV (1).mp3" },
             { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -   MV.mp3" },
@@ -324,9 +318,27 @@
             localStorage.setItem('godmy_musicIndex', index);
         }
 
+        
+        function startMusicSync() {
+            if (music.paused && localStorage.getItem('godmy_paused') !== 'true') {
+                music.play().then(() => {
+                    playPauseBtn.innerText = 'PAUSE';
+                    window.removeEventListener('mousedown', startMusicSync);
+                    window.removeEventListener('keydown', startMusicSync);
+                }).catch(e => console.log("Waiting for user interaction..."));
+            }
+        }
+
         function togglePlayPause() {
-            if (music.paused) { music.play(); playPauseBtn.innerText = 'PAUSE'; }
-            else { music.pause(); playPauseBtn.innerText = 'PLAY'; }
+            if (music.paused) { 
+                music.play(); 
+                playPauseBtn.innerText = 'PAUSE'; 
+                localStorage.setItem('godmy_paused', 'false');
+            } else { 
+                music.pause(); 
+                playPauseBtn.innerText = 'PLAY'; 
+                localStorage.setItem('godmy_paused', 'true');
+            }
         }
 
         function nextTrack() {
@@ -359,14 +371,16 @@
             loadTrack(currentTrackIndex);
             const savedTime = localStorage.getItem('godmy_musicTime');
             if (savedTime) music.currentTime = parseFloat(savedTime);
-            const wasPaused = localStorage.getItem('godmy_paused') === 'true';
-            if (!wasPaused) {
-                let playAttempt = setInterval(() => {
-                    music.play().then(() => {
-                        clearInterval(playAttempt);
-                        playPauseBtn.innerText = 'PAUSE';
-                    }).catch(e => console.log("System Syncing Music..."));
-                }, 600);
+            
+           
+            window.addEventListener('mousedown', startMusicSync);
+            window.addEventListener('keydown', startMusicSync);
+            
+            
+            if (localStorage.getItem('godmy_paused') === 'true') {
+                playPauseBtn.innerText = 'PLAY';
+            } else {
+                startMusicSync(); 
             }
         });
 
