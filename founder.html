@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Founder List - House of GODMYHXND</title>
     <style>
-        /* --- CSS เดิม (สไตล์หลัก) --- */
+        
         body {
             background-color: #000000;
             color: #ffffff;
@@ -43,7 +43,7 @@
         .back-btn { padding: 8px 20px; border: 1px solid #444; color: #fff; text-decoration: none; font-size: 12px; background: rgba(255,255,255,0.05); text-transform: uppercase; transition: 0.3s; }
         .back-btn:hover { background: #fff; color: #000; }
 
-        /* --- Grid Layout: แถวละ 3 คน --- */
+        
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -80,7 +80,7 @@
         .view-profile { font-size: 11px; color: #44aaff; text-decoration: none; margin-top: 10px; display: block; text-transform: uppercase; }
         .view-profile:hover { text-decoration: underline; color: #fff; }
 
-        /* --- ส่วนของการแบ่งหน้า (Pagination) แบบใหม่ --- */
+       
         .pagination {
             display: flex;
             justify-content: center;
@@ -156,19 +156,19 @@
         const paginationControls = document.getElementById('paginationControls');
 
         let currentPage = 1;
-        const itemsPerPage = 12; // แสดง 12 คนต่อหน้า (4 แถว)
+        const itemsPerPage = 12; 
         let filteredCards = [...allCards];
 
         function updateDisplay() {
-            // ซ่อนการ์ดทั้งหมด
+            
             allCards.forEach(card => card.classList.add('hidden'));
 
-            // คำนวณช่วงข้อมูล
+           
             const start = (currentPage - 1) * itemsPerPage;
             const end = start + itemsPerPage;
             const pageItems = filteredCards.slice(start, end);
 
-            // แสดงเฉพาะในหน้าปัจจุบัน
+            
             pageItems.forEach(card => card.classList.remove('hidden'));
 
             renderPagination();
@@ -178,7 +178,7 @@
             const pageCount = Math.ceil(filteredCards.length / itemsPerPage);
             paginationControls.innerHTML = '';
 
-            // ถ้าไม่มีข้อมูล หรือมีแค่หน้าเดียว ไม่ต้องแสดงปุ่มที่ซับซ้อน (หรือจะแสดงแบบ disabled ก็ได้)
+          
             if (pageCount <= 1) {
                 if (pageCount === 1) {
                     paginationControls.innerHTML = '<span class="page-info">PAGE 1 OF 1</span>';
@@ -186,34 +186,34 @@
                 return;
             }
 
-            // ปุ่มแรกสุด
+        
             const firstBtn = document.createElement('button');
             firstBtn.innerHTML = '<<';
             firstBtn.disabled = currentPage === 1;
             firstBtn.onclick = () => { currentPage = 1; updateDisplay(); };
             paginationControls.appendChild(firstBtn);
-
-            // ปุ่มถอยหลัง
+            
+         
             const prevBtn = document.createElement('button');
             prevBtn.innerHTML = 'PREV';
             prevBtn.disabled = currentPage === 1;
             prevBtn.onclick = () => { currentPage--; updateDisplay(); };
             paginationControls.appendChild(prevBtn);
 
-            // เลขหน้าปัจจุบัน
+  
             const info = document.createElement('span');
             info.className = 'page-info';
             info.innerText = `PAGE ${currentPage} OF ${pageCount}`;
             paginationControls.appendChild(info);
 
-            // ปุ่มไปหน้า
+      
             const nextBtn = document.createElement('button');
             nextBtn.innerHTML = 'NEXT';
             nextBtn.disabled = currentPage === pageCount;
             nextBtn.onclick = () => { currentPage++; updateDisplay(); };
             paginationControls.appendChild(nextBtn);
 
-            // ปุ่มสุดท้าย
+   
             const lastBtn = document.createElement('button');
             lastBtn.innerHTML = '>>';
             lastBtn.disabled = currentPage === pageCount;
@@ -221,21 +221,21 @@
             paginationControls.appendChild(lastBtn);
         }
 
-        // ระบบค้นหา
+ 
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toUpperCase();
             filteredCards = allCards.filter(card => {
                 const name = card.getAttribute('data-name').toUpperCase();
                 return name.startsWith(term);
             });
-            currentPage = 1; // รีเซ็ตไปหน้า 1 ทุกครั้งที่ค้นหา
+            currentPage = 1;
             updateDisplay();
         });
 
-        // รันครั้งแรก
+
         updateDisplay();
 
-        // --- ระบบหิมะ (เบาบาง) ---
+       
         (function() {
             const canvas = document.getElementById('snow-canvas');
             const ctx = canvas.getContext('2d');
@@ -303,7 +303,7 @@
 <audio id="bgMusic" autoplay></audio>
 
 <script>
-    // 1. รายชื่อเพลง (ต้องเหมือนกันทุกหน้าเป๊ะๆ)
+   
     const playlist = [
         { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "PORZAX -  MV (1).mp3" },
         { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -    MV.mp3" },
@@ -322,20 +322,20 @@
     const playPauseBtn = document.getElementById('playPauseBtn');
     const volumeSlider = document.getElementById('volumeSlider');
 
-    // ฟังก์ชันโหลดเพลง
+    
     function loadTrack(index) {
         music.src = playlist[index].src;
         trackInfo.innerText = `[ PLAYING: ${playlist[index].name} ]`;
         localStorage.setItem('godmy_musicIndex', index);
     }
 
-    // [หัวใจสำคัญ] บันทึกเวลาทันทีที่ User กำลังจะออกจากหน้า (รวมถึงกด Back)
+    
     window.onbeforeunload = function() {
         localStorage.setItem('godmy_musicTime', music.currentTime);
-        localStorage.setItem('godmy_paused', music.paused); // จำไว้ด้วยว่าเปิดหรือปิดเพลงอยู่
+        localStorage.setItem('godmy_paused', music.paused); 
     };
 
-    // สำรอง: บันทึกทุก 1 วินาทีกันเหนียว
+   
     setInterval(() => {
         if (!music.paused) {
             localStorage.setItem('godmy_musicTime', music.currentTime);
@@ -354,7 +354,7 @@
 
     function nextTrack() {
         currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
-        localStorage.setItem('godmy_musicTime', 0); // เริ่มเพลงใหม่จาก 0
+        localStorage.setItem('godmy_musicTime', 0); 
         loadTrack(currentTrackIndex);
         music.play();
         playPauseBtn.innerText = 'PAUSE';
@@ -370,7 +370,7 @@
 
     music.onended = () => nextTrack();
 
-    // ตั้งค่าระดับเสียง
+    
     const savedVol = localStorage.getItem('godmy_volume');
     music.volume = savedVol ? parseFloat(savedVol) : 0.5;
     volumeSlider.value = music.volume;
@@ -380,17 +380,17 @@
         localStorage.setItem('godmy_volume', e.target.value);
     };
 
-    // เริ่มทำงานเมื่อโหลดหน้า
+    
     window.addEventListener('load', () => {
         loadTrack(currentTrackIndex);
         
-        // ดึงวินาทีล่าสุดจาก localStorage
+        
         const savedTime = localStorage.getItem('godmy_musicTime');
         if (savedTime) {
             music.currentTime = parseFloat(savedTime);
         }
 
-        // เช็คสถานะก่อนหน้า (ถ้า User กด Pause ไว้ก่อนไปหน้าอื่น ก็ไม่ต้อง Auto-play)
+        
         const wasPaused = localStorage.getItem('godmy_paused') === 'true';
 
         if (!wasPaused) {
