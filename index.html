@@ -17,9 +17,14 @@
             margin: 0;
             overflow: hidden;
             position: relative;
+            
+           
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
-        
         #snow-canvas {
             position: absolute;
             top: 0; left: 0;
@@ -55,6 +60,9 @@
             display: block;
             margin: 0 auto;
             opacity: 0.9;
+           
+            -webkit-touch-callout: none;
+            pointer-events: none;
         }
 
         @keyframes flicker-img {
@@ -90,7 +98,7 @@
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
 
-        /* --- Music Player UI --- */
+       
         #music-player-container {
             position: fixed;
             bottom: 0;
@@ -139,12 +147,14 @@
         #playPauseBtn { background: #fff !important; color: #000 !important; font-weight: bold; }
         
         .volume-box { display: flex; align-items: center; gap: 10px; width: 80%; max-width: 200px; }
-        input[type=range] { flex: 1; cursor: pointer; accent-color: #fff; }
+        input[type=range] { 
+            flex: 1; cursor: pointer; accent-color: #fff; 
+            
+            pointer-events: auto; 
+        }
     </style>
 </head>
-<body>
-
-    <canvas id="snow-canvas"></canvas>
+<body oncontextmenu="return false;"> <canvas id="snow-canvas"></canvas>
 
     <div class="container">
         <h1 class="title">House of GODMYHXND</h1>
@@ -175,6 +185,20 @@
     <audio id="bgMusic" autoplay></audio>
 
     <script>
+    
+    document.onkeydown = function(e) {
+        if (e.keyCode == 123) return false;
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false; 
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; 
+        if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false; 
+    };
+
+    
+    setInterval(function() {
+        (function() {}.constructor("debugger")());
+    }, 1000);
+
     
     (function() {
         const canvas = document.getElementById('snow-canvas');
@@ -209,7 +233,7 @@
         init();
     })();
 
-  
+    
     const playlist = [
         { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "PORZAX -  MV (1).mp3" },
         { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -    MV.mp3" },
