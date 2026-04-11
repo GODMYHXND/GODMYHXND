@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>House of GODMYHXND</title>
     <style>
-        
         body {
             background-color: #000000;
             color: #ffffff;
@@ -17,8 +16,6 @@
             margin: 0;
             overflow: hidden;
             position: relative;
-            
-           
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
@@ -60,7 +57,6 @@
             display: block;
             margin: 0 auto;
             opacity: 0.9;
-           
             -webkit-touch-callout: none;
             pointer-events: none;
         }
@@ -98,7 +94,6 @@
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
 
-       
         #music-player-container {
             position: fixed;
             bottom: 0;
@@ -149,12 +144,12 @@
         .volume-box { display: flex; align-items: center; gap: 10px; width: 80%; max-width: 200px; }
         input[type=range] { 
             flex: 1; cursor: pointer; accent-color: #fff; 
-            
             pointer-events: auto; 
         }
     </style>
 </head>
-<body oncontextmenu="return false;"> <canvas id="snow-canvas"></canvas>
+<body oncontextmenu="return false;">
+    <canvas id="snow-canvas"></canvas>
 
     <div class="container">
         <h1 class="title">House of GODMYHXND</h1>
@@ -182,7 +177,7 @@
         </div>
     </div>
 
-    <audio id="bgMusic" autoplay></audio>
+    <audio id="bgMusic" preload="auto"></audio>
 
     <script>
     
@@ -194,12 +189,11 @@
         if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false; 
     };
 
-    
     setInterval(function() {
         (function() {}.constructor("debugger")());
     }, 1000);
 
-    
+   
     (function() {
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
@@ -233,17 +227,17 @@
         init();
     })();
 
-    
+   
     const playlist = [
         { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "PORZAX -  MV (1).mp3" },
-        { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -    MV.mp3" },
+        { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -   MV.mp3" },
         { name: "PORZAX - พอได้แล้ว (MV)", src: "PORZAX -  MV (2).mp3" },
         { name: "PORZAX - อย่ามาพูดถึงคำว่ารัก", src: "PORZAX - 2 (2).mp3" },
         { name: "PORZAX - ดอกไม้สีเทา Ft.Pondering", src: "PORZAX - .mp3" },
         { name: "PORZAX - สิ้นสุดความพยายาม ", src: "PORZAX - 2.mp3" },
         { name: "PORZAX - สิ้นสุดแรงรั้ง ", src: "PORZAX -    Special Version.mp3" },
-        { name: "PORZAX - PORZAX - รักร้ายท้ายสุด ", src: "PORZAX -  11(1).mp3" },
-        { name: "PORZAX - PORZAX - รักร้ายท้ายสุด ", src: "PORZAX -  FtRachYO.mp3" },
+        { name: "PORZAX - รักร้ายท้ายสุด", src: "PORZAX -  11(1).mp3" },
+        { name: "PORZAX - หนึ่งในร้อย", src: "PORZAX -  FtRachYO.mp3" }
     ];
 
     let currentTrackIndex = parseInt(localStorage.getItem('godmy_musicIndex')) || 0;
@@ -255,41 +249,51 @@
     function loadTrack(index) {
         if (playlist[index]) {
             music.src = playlist[index].src;
+            music.load(); 
             trackInfo.innerText = `[ PLAYING: ${playlist[index].name} ]`;
             localStorage.setItem('godmy_musicIndex', index);
         }
     }
 
-    window.onbeforeunload = function() {
+    
+    window.addEventListener('beforeunload', () => {
         localStorage.setItem('godmy_musicTime', music.currentTime);
         localStorage.setItem('godmy_paused', music.paused);
-    };
+    });
 
     function togglePlayPause() {
-        if (music.paused) { music.play(); playPauseBtn.innerText = 'PAUSE'; }
-        else { music.pause(); playPauseBtn.innerText = 'PLAY'; }
+        if (music.paused) { 
+            music.play().then(() => playPauseBtn.innerText = 'PAUSE');
+        } else { 
+            music.pause(); 
+            playPauseBtn.innerText = 'PLAY'; 
+        }
+    }
+
+    function playWithSync(index) {
+        localStorage.setItem('godmy_musicTime', 0);
+        loadTrack(index);
+        music.play().then(() => {
+            playPauseBtn.innerText = 'PAUSE';
+        }).catch(e => console.log("Playback blocked:", e));
     }
 
     function nextTrack() {
         currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
-        localStorage.setItem('godmy_musicTime', 0);
-        loadTrack(currentTrackIndex);
-        music.play();
-        playPauseBtn.innerText = 'PAUSE';
+        playWithSync(currentTrackIndex);
     }
 
     function prevTrack() {
         currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
-        localStorage.setItem('godmy_musicTime', 0);
-        loadTrack(currentTrackIndex);
-        music.play();
-        playPauseBtn.innerText = 'PAUSE';
+        playWithSync(currentTrackIndex);
     }
 
     music.onended = () => nextTrack();
 
+   
     window.addEventListener('load', () => {
         loadTrack(currentTrackIndex);
+        
         const savedTime = localStorage.getItem('godmy_musicTime');
         if (savedTime) music.currentTime = parseFloat(savedTime);
         
@@ -297,13 +301,19 @@
         music.volume = savedVol ? parseFloat(savedVol) : 0.5;
         volumeSlider.value = music.volume;
 
+        
         if (localStorage.getItem('godmy_paused') !== 'true') {
-            let attempt = setInterval(() => {
+            const startPlay = () => {
                 music.play().then(() => {
-                    clearInterval(attempt);
                     playPauseBtn.innerText = 'PAUSE';
-                }).catch(() => {});
-            }, 600);
+                    window.removeEventListener('click', startPlay);
+                }).catch(() => {
+                    playPauseBtn.innerText = 'PLAY';
+                    
+                    window.addEventListener('click', startPlay, { once: true });
+                });
+            };
+            startPlay();
         } else {
             playPauseBtn.innerText = 'PLAY';
         }
