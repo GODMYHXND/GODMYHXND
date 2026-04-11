@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>House of GODMYHXND</title>
     <style>
-        /* --- CSS หลัก --- */
+        
         body {
             background-color: #000000;
             color: #ffffff;
@@ -19,7 +19,7 @@
             position: relative;
         }
 
-        /* --- เอฟเฟกต์พายุหิมะ --- */
+        
         #snow-canvas {
             position: absolute;
             top: 0; left: 0;
@@ -33,7 +33,7 @@
             width: 100%;
             max-width: 600px;
             z-index: 1;
-            padding-bottom: 120px; /* เว้นพื้นที่ให้ Player ในมือถือ */
+            padding-bottom: 120px; 
         }
 
         .title {
@@ -175,7 +175,7 @@
     <audio id="bgMusic" autoplay></audio>
 
     <script>
-    // --- 1. Script พายุหิมะ ---
+    
     (function() {
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
@@ -209,7 +209,7 @@
         init();
     })();
 
-    // --- 2. Script ระบบเพลง ---
+  
     const playlist = [
         { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "PORZAX -  MV (1).mp3" },
         { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -    MV.mp3" },
