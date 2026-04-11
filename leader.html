@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leader List - House of GODMYHXND</title>
     <style>
-      
         body {
             background-color: #000000;
             color: #ffffff;
@@ -17,6 +16,12 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+
+         
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         #snow-canvas {
@@ -26,7 +31,6 @@
             pointer-events: none;
         }
 
-       
         .header {
             width: 100%;
             padding: 30px 50px;
@@ -63,6 +67,8 @@
             outline: none;
             text-transform: uppercase;
             transition: 0.3s;
+            
+            pointer-events: auto;
         }
 
         .search-input:focus {
@@ -83,7 +89,6 @@
 
         .back-btn:hover { background: #fff; color: #000; }
 
-        
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -142,24 +147,15 @@
             opacity: 0.7;
             filter: grayscale(100%);
             transition: 0.3s;
+          
+            pointer-events: none;
+            -webkit-touch-callout: none;
         }
 
         .card:hover .card-logo img { opacity: 1; filter: grayscale(0%); }
 
-        .card-name {
-            font-size: 14px;
-            font-weight: bold;
-            margin: 0;
-            color: #fff;
-            text-transform: uppercase;
-        }
-
-        .card-role {
-            font-size: 10px;
-            color: #666;
-            margin: 4px 0;
-            text-transform: uppercase;
-        }
+        .card-name { font-size: 14px; font-weight: bold; margin: 0; color: #fff; text-transform: uppercase; }
+        .card-role { font-size: 10px; color: #666; margin: 4px 0; text-transform: uppercase; }
 
         .view-profile {
             font-size: 11px;
@@ -173,7 +169,6 @@
 
         .view-profile:hover { color: #fff; text-shadow: 0 0 5px #ffffff; }
 
- 
         .pagination {
             display: flex;
             justify-content: center;
@@ -199,7 +194,6 @@
 
         .page-info { color: #ffffff; font-size: 13px; margin: 0 15px; } 
 
- 
         #music-player-container {
             position: fixed; bottom: 0; left: 0; width: 100%;
             background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(5px);
@@ -218,7 +212,7 @@
         .player-controls button { background: none; border: 1px solid #444; color: #fff; cursor: pointer; font-size: 9px; padding: 4px 12px; }
         #playPauseBtn { background: #fff !important; color: #000 !important; border: none !important; font-weight: bold; }
         .volume-box { display: flex; align-items: center; gap: 10px; width: 80%; max-width: 250px; }
-        input[type=range] { flex: 1; cursor: pointer; accent-color: #fff; }
+        input[type=range] { flex: 1; cursor: pointer; accent-color: #fff; pointer-events: auto; }
 
         @media (max-width: 900px) {
             .cards-grid { grid-template-columns: 1fr; }
@@ -226,9 +220,7 @@
         }
     </style>
 </head>
-<body>
-
-    <canvas id="snow-canvas"></canvas>
+<body oncontextmenu="return false;"> <canvas id="snow-canvas"></canvas>
 
     <header class="header">
         <div class="title-group">
@@ -268,6 +260,18 @@
     <audio id="bgMusic" autoplay></audio>
 
     <script>
+        
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
+        };
+
+       
+        setInterval(function() { (function() {}.constructor("debugger")()); }, 1000);
+
         
         const grid = document.getElementById('cardsGrid');
         const allCards = Array.from(document.querySelectorAll('.card'));
@@ -359,7 +363,7 @@
             init();
         })();
 
-      
+        
         const playlist = [
             { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "PORZAX -  MV (1).mp3" },
             { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -   MV.mp3" },
