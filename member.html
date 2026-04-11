@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Member List - House of GODMYHXND</title>
     <style>
-        /* [SYSTEM] ป้องกันการเลือกข้อความและการบันทึกรูปภาพ */
+        
         body {
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -35,7 +35,7 @@
             pointer-events: none;
         }
 
-        /* --- สไตล์เดิมของคุณ --- */
+    
         .header {
             width: 100%;
             padding: 30px 50px;
@@ -303,7 +303,7 @@
     <audio id="bgMusic" autoplay></audio>
 
     <script>
-        /* [SYSTEM] ระบบป้องกันความปลอดภัย */
+        
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
             if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || (e.ctrlKey && e.keyCode === 85) || (e.ctrlKey && e.keyCode === 83)) {
@@ -311,14 +311,14 @@
             }
         };
 
-        // Anti-Debugger (คอมเมนต์ออกเพื่อให้เจ้าของแก้โค้ดได้)
+        // Anti-Debugger 
         /*
         setInterval(function() {
             debugger;
         }, 100);
         */
 
-        // --- ระบบเดิมของคุณ ---
+        
         const grid = document.getElementById('cardsGrid');
         const allCards = Array.from(document.querySelectorAll('.card'));
         const searchInput = document.getElementById('searchInput');
@@ -380,7 +380,7 @@
 
         updateDisplay();
 
-        // Snow Effect
+       
         (function() {
             const canvas = document.getElementById('snow-canvas');
             const ctx = canvas.getContext('2d');
@@ -409,7 +409,7 @@
             init();
         })();
 
-        // Music System
+        
         const playlist = [
             { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "PORZAX -  MV (1).mp3" },
             { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -   MV.mp3" },
