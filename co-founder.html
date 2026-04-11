@@ -16,7 +16,6 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
-           
             -webkit-user-select: none;
             -ms-user-select: none;
             user-select: none;
@@ -65,7 +64,6 @@
             outline: none;
             text-transform: uppercase;
             transition: 0.3s;
-           
             -webkit-user-select: text;
             -ms-user-select: text;
             user-select: text;
@@ -266,14 +264,12 @@
         </div>
     </div>
 
-    <audio id="bgMusic" autoplay></audio>
+    <audio id="bgMusic"></audio>
 
     <script>
-    
+       
         (function() {
-         
             document.addEventListener('contextmenu', e => e.preventDefault());
-            
             document.onkeydown = function(e) {
                 if (e.keyCode == 123) return false; 
                 if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false; 
@@ -283,7 +279,7 @@
             };
         })();
 
-        
+       
         const grid = document.getElementById('cardsGrid');
         const allCards = Array.from(document.querySelectorAll('.card'));
         const searchInput = document.getElementById('searchInput');
@@ -345,7 +341,7 @@
 
         updateDisplay();
 
-        
+     
         (function() {
             const canvas = document.getElementById('snow-canvas');
             const ctx = canvas.getContext('2d');
@@ -374,7 +370,7 @@
             init();
         })();
 
-       
+    
         const playlist = [
             { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "PORZAX -  MV (1).mp3" },
             { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -   MV.mp3" },
@@ -399,14 +395,24 @@
             localStorage.setItem('godmy_musicIndex', index);
         }
 
-        window.onbeforeunload = () => {
-            localStorage.setItem('godmy_musicTime', music.currentTime);
-            localStorage.setItem('godmy_paused', music.paused);
-        };
+        function startMusicSync() {
+            if (music.paused && localStorage.getItem('godmy_paused') !== 'true') {
+                music.play().then(() => {
+                    playPauseBtn.innerText = 'PAUSE';
+                    window.removeEventListener('mousedown', startMusicSync);
+                    window.removeEventListener('keydown', startMusicSync);
+                }).catch(() => {});
+            }
+        }
 
         function togglePlayPause() {
-            if (music.paused) { music.play(); playPauseBtn.innerText = 'PAUSE'; }
-            else { music.pause(); playPauseBtn.innerText = 'PLAY'; }
+            if (music.paused) { 
+                music.play(); playPauseBtn.innerText = 'PAUSE'; 
+                localStorage.setItem('godmy_paused', 'false');
+            } else { 
+                music.pause(); playPauseBtn.innerText = 'PLAY'; 
+                localStorage.setItem('godmy_paused', 'true');
+            }
         }
 
         function nextTrack() {
@@ -434,19 +440,25 @@
             music.volume = savedVol ? parseFloat(savedVol) : 0.5;
             volumeSlider.value = music.volume;
 
-            if (localStorage.getItem('godmy_paused') !== 'true') {
-                let attempt = setInterval(() => {
-                    music.play().then(() => {
-                        clearInterval(attempt);
-                        playPauseBtn.innerText = 'PAUSE';
-                    }).catch(() => {});
-                }, 600);
-            } else { playPauseBtn.innerText = 'PLAY'; }
+        
+            window.addEventListener('mousedown', startMusicSync);
+            window.addEventListener('keydown', startMusicSync);
+
+            if (localStorage.getItem('godmy_paused') === 'true') {
+                playPauseBtn.innerText = 'PLAY';
+            } else {
+                startMusicSync();
+            }
         });
 
         volumeSlider.oninput = (e) => {
             music.volume = e.target.value;
             localStorage.setItem('godmy_volume', e.target.value);
+        };
+
+        window.onbeforeunload = () => {
+            localStorage.setItem('godmy_musicTime', music.currentTime);
+            localStorage.setItem('godmy_paused', music.paused);
         };
     </script>
 </body>
