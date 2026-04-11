@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neverbroke Gmh - House of GODMYHXND</title>
     <style>
-       
         body {
             background-color: #000000;
             color: #ffffff;
@@ -17,6 +16,10 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+           
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         #snow-canvas {
@@ -26,7 +29,6 @@
             pointer-events: none;
         }
 
-        
         .header {
             width: 100%;
             padding: 30px 50px;
@@ -63,6 +65,10 @@
             outline: none;
             text-transform: uppercase;
             transition: 0.3s;
+           
+            -webkit-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
         }
 
         .search-input:focus {
@@ -83,7 +89,6 @@
 
         .back-btn:hover { background: #fff; color: #000; }
 
-   
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -173,7 +178,6 @@
 
         .view-profile:hover { color: #fff; text-shadow: 0 0 5px #ffffff; }
 
-        
         .pagination {
             display: flex;
             justify-content: center;
@@ -265,6 +269,20 @@
     <audio id="bgMusic" autoplay></audio>
 
     <script>
+    
+        (function() {
+         
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            
+            document.onkeydown = function(e) {
+                if (e.keyCode == 123) return false; 
+                if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false; 
+                if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false; 
+                if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; 
+                if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false; 
+            };
+        })();
+
         
         const grid = document.getElementById('cardsGrid');
         const allCards = Array.from(document.querySelectorAll('.card'));
@@ -356,7 +374,7 @@
             init();
         })();
 
-        
+       
         const playlist = [
             { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "PORZAX -  MV (1).mp3" },
             { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -   MV.mp3" },
