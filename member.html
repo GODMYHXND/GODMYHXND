@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Member List - House of GODMYHXND</title>
     <style>
-       
+        /* [SYSTEM] ป้องกันการเลือกข้อความและการบันทึกรูปภาพ */
         body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
             background-color: #000000;
             color: #ffffff;
             font-family: 'Courier New', Courier, monospace;
@@ -19,6 +23,11 @@
             position: relative;
         }
 
+        img {
+            -webkit-touch-callout: none;
+            pointer-events: none;
+        }
+
         #snow-canvas {
             position: fixed;
             top: 0; left: 0;
@@ -26,7 +35,7 @@
             pointer-events: none;
         }
 
-        
+        /* --- สไตล์เดิมของคุณ --- */
         .header {
             width: 100%;
             padding: 30px 50px;
@@ -83,7 +92,6 @@
 
         .back-btn:hover { background: #fff; color: #000; }
 
-        
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -125,7 +133,6 @@
 
         .card:hover::before { opacity: 1; box-shadow: 0 0 10px #fff; }
 
-     
         .card-logo {
             width: 70px; 
             height: 70px;
@@ -178,7 +185,6 @@
 
         .view-profile:hover { color: #fff; text-decoration: underline; }
 
-       
         .pagination {
             display: flex;
             justify-content: center;
@@ -203,7 +209,6 @@
         .pagination button:disabled { opacity: 0.2; cursor: not-allowed; }
 
         .page-info { color: #888; font-size: 13px; margin: 0 15px; }
-
 
         #music-player-container {
             position: fixed; bottom: 0; left: 0; width: 100%;
@@ -279,7 +284,6 @@
         <div class="card"><div class="card-logo"><img src="https://img2.pic.in.th/image-removebg-preview-11702e540026f771a.png"></div><div class="card-info"><p class="card-name">Vno Godmyhxnd</p><p class="card-role">MEMBER</p><a href="https://www.facebook.com/profile.php?id=61580107704419" class="view-profile">VIEW PROFILE</a></div></div>
         <div class="card"><div class="card-logo"><img src="https://img2.pic.in.th/image-removebg-preview-11702e540026f771a.png"></div><div class="card-info"><p class="card-name">Highflex GodmyHxnd</p><p class="card-role">MEMBER</p><a href="https://www.facebook.com/profile.php?id=61575198203507" class="view-profile">VIEW PROFILE</a></div></div>
     </main>
-    </main>
 
     <div class="pagination" id="paginationControls"></div>
 
@@ -299,7 +303,22 @@
     <audio id="bgMusic" autoplay></audio>
 
     <script>
-        
+        /* [SYSTEM] ระบบป้องกันความปลอดภัย */
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || (e.ctrlKey && e.keyCode === 85) || (e.ctrlKey && e.keyCode === 83)) {
+                return false;
+            }
+        };
+
+        // Anti-Debugger (คอมเมนต์ออกเพื่อให้เจ้าของแก้โค้ดได้)
+        /*
+        setInterval(function() {
+            debugger;
+        }, 100);
+        */
+
+        // --- ระบบเดิมของคุณ ---
         const grid = document.getElementById('cardsGrid');
         const allCards = Array.from(document.querySelectorAll('.card'));
         const searchInput = document.getElementById('searchInput');
@@ -309,14 +328,12 @@
         const itemsPerPage = 12; 
         let filteredCards = [];
 
-      
         const sortedCards = allCards.sort((a, b) => {
             const nameA = a.querySelector('.card-name').innerText.toUpperCase();
             const nameB = b.querySelector('.card-name').innerText.toUpperCase();
             return nameA.localeCompare(nameB);
         });
 
-     
         sortedCards.forEach(card => grid.appendChild(card));
         filteredCards = [...sortedCards];
 
@@ -363,7 +380,7 @@
 
         updateDisplay();
 
-       
+        // Snow Effect
         (function() {
             const canvas = document.getElementById('snow-canvas');
             const ctx = canvas.getContext('2d');
@@ -392,10 +409,10 @@
             init();
         })();
 
-     
+        // Music System
         const playlist = [
             { name: "PORZAX - แบบนั้นได้หรอ (MV)", src: "PORZAX -  MV (1).mp3" },
-            { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -    MV.mp3" },
+            { name: "PORZAX - ใครไม่รักแต่เค้ารัก", src: "PORZAX -   MV.mp3" },
             { name: "PORZAX - พอได้แล้ว (MV)", src: "PORZAX -  MV (2).mp3" },
             { name: "PORZAX - อย่ามาพูดถึงคำว่ารัก", src: "PORZAX - 2 (2).mp3" },
             { name: "PORZAX - ดอกไม้สีเทา Ft.Pondering", src: "PORZAX - .mp3" },
